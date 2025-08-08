@@ -1,27 +1,39 @@
 import { useState } from 'react'
 import './App.css'
+import type { Equipment, EquipmentStats } from './types/equipment'
+import { sampleEquipment } from './data/sampleData'
+import Header from './components/Header'
+import EquipmentList from './components/EquipmentList'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  // sample data, will convert to dynamic later
+  const [equipment] = useState<Equipment[]>(sampleEquipment);
+
+  // Calculate statistics for the header
+  const calculateStats = (equipmentList: Equipment[]): EquipmentStats => {
+    return {
+      total: equipmentList.length,
+      available: equipmentList.filter(item => item.status === 'available').length,
+      assigned: equipmentList.filter(item => item.status === 'assigned').length,
+      maintenance: equipmentList.filter(item => item.status === 'maintenance').length,
+    }
+  }
+
+  const stats = calculateStats(equipment);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-        </a>
-        <a href="https://react.dev" target="_blank">
-        </a>
+    <div className='app'>
+      <div className='app-container'>
+        <Header stats={stats} />
+        <div className='main-content'>
+          <div className='content-header'>
+            <h2>Equipment Inventory</h2>
+            <p className='subtitle'>Manage and track all IT equipment</p>
+          </div>
+          <EquipmentList equipment={equipment} />
+        </div>
       </div>
-      <h1>Equipment Inventory System</h1>
-      <div className="card">
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    </div>
   )
 }
 
