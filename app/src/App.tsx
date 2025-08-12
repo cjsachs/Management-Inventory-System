@@ -1,13 +1,23 @@
 import { useState } from 'react'
 import './App.css'
-import type { Equipment, EquipmentStats } from './types/equipment'
+import type { Equipment, EquipmentStats, NotificationType } from './types/equipment'
 import { sampleEquipment } from './data/sampleData'
 import Header from './components/Header'
 import EquipmentList from './components/EquipmentList'
 
 const App = () => {
   // sample data, will convert to dynamic later
-  const [equipment] = useState<Equipment[]>(sampleEquipment);
+  const [equipment, setEquipment] = useState<Equipment[]>(sampleEquipment);
+  const [activeTab, setActiveTab] = useState<'inventory' | 'add'>('inventory');
+  const [notification, setNotification] = useState<{
+    show: boolean,
+    message: string,
+    type: NotificationType
+  }>({
+    show: false,
+    message: '',
+    type: 'success'
+  });
 
   // Calculate statistics for the header
   const calculateStats = (equipmentList: Equipment[]): EquipmentStats => {
@@ -18,6 +28,45 @@ const App = () => {
       maintenance: equipmentList.filter(item => item.status === 'maintenance').length,
     }
   }
+
+  // handler for adding equipment
+  const handleAddEquipment = (newEquipment: Omit<Equipment, 'id'>) => {
+    try {
+      // generate a new ID (use backend for this)
+      const equipmentWithId: Equipment = {
+        ...newEquipment,
+        id: Date.now(), // simple ID generation
+      };
+      // add to equipment list
+      setEquipment(prev => [...prev, equipmentWithId]);
+
+      // show success notification
+      showNotification('Equipment added successfully', 'success');
+
+      // switch to intentory tab to see new item
+      setActiveTab('inventory');
+
+      return true;
+    } catch (error) {
+      // show error notification
+      showNotification('Failed to add equipment', 'error');
+      return false;
+    }
+  }
+
+  // show notification helper
+  const showNotification = (message: string, type: NotificationType)=> {
+    setNotification({
+      show: true,
+      message,
+      type
+    });
+  }
+
+  // auto-hide notification after 3s
+  setTimeout(() => {
+    setNotification(prev => ({ ...prev, show: false }));
+  }, 3000);
 
   const stats = calculateStats(equipment);
 

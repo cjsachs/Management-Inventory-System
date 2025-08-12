@@ -37,3 +37,4 @@ export interface EquipmentStats {
     maintenance: number;
 }
 
+export type NotificationType = 'success' | 'error' | 'info' | 'warning';
