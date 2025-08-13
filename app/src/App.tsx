@@ -4,6 +4,7 @@ import type { Equipment, EquipmentStats, NotificationType } from './types/equipm
 import { sampleEquipment } from './data/sampleData'
 import Header from './components/Header'
 import EquipmentList from './components/EquipmentList'
+import AddEquipmentForm from './components/AddEquipmentForm'
 
 const App = () => {
   // sample data, will convert to dynamic later
@@ -71,19 +72,36 @@ const App = () => {
   const stats = calculateStats(equipment);
 
   return (
-    <div className='app'>
-      <div className='app-container'>
+    <div className="app">
+      <div className="app-container">
         <Header stats={stats} />
-        <div className='main-content'>
-          <div className='content-header'>
-            <h2>Equipment Inventory</h2>
-            <p className='subtitle'>Manage and track all IT equipment</p>
-          </div>
-          <EquipmentList equipment={equipment} />
+        
+
+        <div className="main-content">
+          {activeTab === 'inventory' ? (
+            <>
+              <div className="content-header">
+                <h2>Equipment Inventory</h2>
+                <p className="subtitle">Manage and track all IT equipment</p>
+              </div>
+              <EquipmentList equipment={equipment} />
+              <div className="content-footer">
+                <button onClick={() => setActiveTab('add')}>Add Equipment</button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="content-header">
+                <h2>Add New Equipment</h2>
+                <p className="subtitle">Enter equipment details to add to inventory</p>
+              </div>
+              <AddEquipmentForm onSubmit={handleAddEquipment} />
+            </>
+          )}
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default App

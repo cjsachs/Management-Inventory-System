@@ -26,7 +26,6 @@ export interface Equipment {
   location: string;
   purchaseDate: string;
   purchaseCost: number;
-  warrantyExpiry: string;
   notes: string;
 }
 
