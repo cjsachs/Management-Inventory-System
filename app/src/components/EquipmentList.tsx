@@ -1,4 +1,4 @@
-import { Keyboard, Laptop, Monitor, Mouse, Package, Printer, Smartphone } from "lucide-react";
+import { Keyboard, Laptop, Monitor, Mouse, Package, Smartphone } from "lucide-react";
 import type { Equipment, EquipmentStatus, EquipmentType } from "../types/equipment";
 
 interface EquipmentListProps {
@@ -13,7 +13,6 @@ const EquipmentList = ({ equipment }: EquipmentListProps) => {
       'Laptop': Laptop,
       'Desktop': Monitor,
       'Phone': Smartphone,
-      'Printer': Printer,
       'Keyboard': Keyboard,
       'Mouse': Mouse
     };

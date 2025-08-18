@@ -7,7 +7,6 @@ export type EquipmentStatus =
 export type EquipmentType =
   | 'Laptop'
   | 'Desktop'
-  | 'Printer'
   | 'Phone'
   | 'Keyboard'
   | 'Mouse';

@@ -16,13 +16,12 @@ export const sampleEquipment: Equipment[] = [
     location: 'Building A - Floor 3',
     purchaseDate: '2024-01-15',
     purchaseCost: 1299.99,
-    warrantyExpiry: '2027-01-15',
     notes: 'Upgraded RAM to 32GB'
   },
   {
     id: 2,
     assetTag: 'IT-2024-002',
-    type: 'Monitor',
+    type: 'Laptop',
     brand: 'LG',
     model: 'UltraWide 34WN80C',
     serialNumber: 'LG2024M002',
@@ -33,7 +32,6 @@ export const sampleEquipment: Equipment[] = [
     location: 'Building A - Floor 3',
     purchaseDate: '2024-01-20',
     purchaseCost: 549.99,
-    warrantyExpiry: '2026-01-20',
     notes: '34-inch curved display'
   },
   {
@@ -50,7 +48,6 @@ export const sampleEquipment: Equipment[] = [
     location: 'IT Storage Room',
     purchaseDate: '2024-02-01',
     purchaseCost: 899.99,
-    warrantyExpiry: '2027-02-01',
     notes: 'Ready for deployment'
   },
   {
@@ -67,25 +64,7 @@ export const sampleEquipment: Equipment[] = [
     location: 'Building B - Floor 2',
     purchaseDate: '2023-11-10',
     purchaseCost: 2499.99,
-    warrantyExpiry: '2026-11-10',
     notes: 'M3 Pro chip, 18GB RAM'
-  },
-  {
-    id: 5,
-    assetTag: 'IT-2024-004',
-    type: 'Printer',
-    brand: 'Canon',
-    model: 'imageCLASS MF445dw',
-    serialNumber: 'CN2024P004',
-    status: 'available',
-    assignedTo: '',
-    employeeId: '',
-    department: '',
-    location: 'Building A - Floor 2',
-    purchaseDate: '2024-03-01',
-    purchaseCost: 429.99,
-    warrantyExpiry: '2025-03-01',
-    notes: 'Multifunction laser printer'
   },
   {
     id: 6,
@@ -101,7 +80,6 @@ export const sampleEquipment: Equipment[] = [
     location: 'Remote',
     purchaseDate: '2023-09-15',
     purchaseCost: 799.99,
-    warrantyExpiry: '2025-09-15',
     notes: 'Company mobile device'
   },
   {
@@ -118,7 +96,6 @@ export const sampleEquipment: Equipment[] = [
     location: 'IT Repair Station',
     purchaseDate: '2024-01-05',
     purchaseCost: 119.99,
-    warrantyExpiry: '2025-01-05',
     notes: 'Space bar needs repair'
   },
   {
@@ -135,7 +112,6 @@ export const sampleEquipment: Equipment[] = [
     location: 'Disposal Queue',
     purchaseDate: '2022-03-20',
     purchaseCost: 1099.99,
-    warrantyExpiry: '2025-03-20',
     notes: 'Motherboard failure - to be recycled'
   },
   {
@@ -152,24 +128,6 @@ export const sampleEquipment: Equipment[] = [
     location: 'Building B - Floor 1',
     purchaseDate: '2024-02-15',
     purchaseCost: 599.99,
-    warrantyExpiry: '2026-02-15',
     notes: '256GB WiFi model'
-  },
-  {
-    id: 10,
-    assetTag: 'IT-2024-007',
-    type: 'Monitor',
-    brand: 'Dell',
-    model: 'UltraSharp U2723DE',
-    serialNumber: 'DL2024M007',
-    status: 'available',
-    assignedTo: '',
-    employeeId: '',
-    department: '',
-    location: 'IT Storage Room',
-    purchaseDate: '2024-03-10',
-    purchaseCost: 649.99,
-    warrantyExpiry: '2027-03-10',
-    notes: '27-inch 4K USB-C Hub Monitor'
   }
 ]

@@ -51,7 +51,6 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
     'Laptop',
     'Desktop',
     'Phone',
-    'Printer',
     'Keyboard',
     'Mouse',
   ];
