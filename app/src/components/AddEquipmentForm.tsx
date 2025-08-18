@@ -165,7 +165,7 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
                 name="assetTag"
                 value={formData.assetTag}
                 onChange={handleChange}
-                placeholder="IT-2024-001"
+                placeholder="IT-2025-001"
                 className={errors.assetTag ? 'error' : ''}
               />
               {errors.assetTag && (
@@ -201,7 +201,7 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
                 name="brand"
                 value={formData.brand}
                 onChange={handleChange}
-                placeholder="Dell, HP, Apple, etc."
+                placeholder="Lenovo, Apple, HP, etc."
                 className={errors.brand ? 'error' : ''}
               />
               {errors.brand && (
