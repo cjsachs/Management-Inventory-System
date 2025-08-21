@@ -3,9 +3,10 @@ import type { Equipment, EquipmentStatus, EquipmentType } from "../types/equipme
 
 interface EquipmentListProps {
   equipment: Equipment[];
+  onEdit: (equipment: Equipment) => void;
 }
 
-const EquipmentList = ({ equipment }: EquipmentListProps) => {
+const EquipmentList = ({ equipment, onEdit }: EquipmentListProps) => {
 
   // helper to get respective icon for equipment type
   const getEquipmentIcon = (type: EquipmentType) => {

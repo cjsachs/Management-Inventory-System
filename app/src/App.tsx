@@ -1,15 +1,21 @@
-import { useState } from 'react'
+import { use, useMemo, useState } from 'react'
 import './App.css'
-import type { Equipment, EquipmentStats, NotificationType } from './types/equipment'
+import type { Equipment, EquipmentStats, EquipmentStatus, NotificationType } from './types/equipment'
 import { sampleEquipment } from './data/sampleData'
 import Header from './components/Header'
 import EquipmentList from './components/EquipmentList'
 import AddEquipmentForm from './components/AddEquipmentForm'
+import Notification from './components/Notification'
+import TabNavigation from './components/TabNavigation'
 
 const App = () => {
   // sample data, will convert to dynamic later
   const [equipment, setEquipment] = useState<Equipment[]>(sampleEquipment);
   const [activeTab, setActiveTab] = useState<'inventory' | 'add'>('inventory');
+  const [searchTerm, setSearchTerm] = useState<string>('');
+  const [statusFilter, setStatusFilter] = useState<EquipmentStatus | 'all'>('all');
+  const [editingEquipment, setEditingEquipment] = useState<Equipment | null>(null);
+  const [deletingEquipment, setDeletingEquipment] = useState<Equipment | null>(null);
   const [notification, setNotification] = useState<{
     show: boolean,
     message: string,
@@ -29,6 +35,26 @@ const App = () => {
       maintenance: equipmentList.filter(item => item.status === 'maintenance').length,
     }
   }
+
+  // filter equipment by search term and status
+  const filteredEquipment = useMemo(() => {
+    return equipment.filter(item => {
+      // search filter
+      const searchLower = searchTerm.toLowerCase();
+      const matchesSearch = searchTerm === '' ||
+        item.assetTag.toLowerCase().includes(searchLower) ||
+        item.serialNumber.toLowerCase().includes(searchLower) ||
+        item.brand.toLowerCase().includes(searchLower) ||
+        item.model.toLowerCase().includes(searchLower) ||
+        item.assignedTo.toLowerCase().includes(searchLower) ||
+        item.department.toLowerCase().includes(searchLower) ||
+        item.location.toLowerCase().includes(searchLower);
+      
+        // status filter
+        const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
+        return matchesSearch && matchesStatus;
+  });
+}, [equipment, searchTerm, statusFilter]);
 
   // handler for adding equipment
   const handleAddEquipment = (newEquipment: Omit<Equipment, 'id'>) => {
@@ -55,6 +81,40 @@ const App = () => {
     }
   }
 
+  // handler for editing equipment
+  const handleEditEquipment = (updatedEquipment: Equipment) => {
+    try {
+      setEquipment(prev => 
+      prev.map(item => 
+        item.id === updatedEquipment.id ? updatedEquipment : item));
+        showNotification('Equipment updated successfully', 'success');
+        setEditingEquipment(null);
+        return true;
+    } catch (error) {
+      showNotification('Failed to update equipment', 'error');
+      return false
+    }
+  }
+
+  // handler for deleting equipment
+  const handleDeleteEquipment = (equipmentToDelete: Equipment) => {
+    try {
+      setEquipment(prev => prev.filter(item => item.id !== equipmentToDelete.id));
+      showNotification(`Equipment ${equipmentToDelete.assetTag} deleted successfully`, 'success');
+      setDeletingEquipment(null);
+      return true;
+    } catch (error) {
+      showNotification('Failed to delete equipment', 'error');
+      return false;
+    }
+  }
+
+  // handle clearing filters
+  const handleClearFilters = () => {
+    setSearchTerm('');
+    setStatusFilter('all');
+  };
+
   // show notification helper
   const showNotification = (message: string, type: NotificationType)=> {
     setNotification({
@@ -76,18 +136,44 @@ const App = () => {
       <div className="app-container">
         <Header stats={stats} />
         
+        <TabNavigation 
+          activeTab={activeTab} 
+          onTabChange={setActiveTab} 
+        />
 
         <div className="main-content">
           {activeTab === 'inventory' ? (
             <>
               <div className="content-header">
-                <h2>Equipment Inventory</h2>
-                <p className="subtitle">Manage and track all IT equipment</p>
+                <div>
+                  <h2>Equipment Inventory</h2>
+                  <p className="subtitle">Manage and track all IT equipment</p>
+                </div>
+                <div className="header-actions">
+                  <button 
+                    className="btn btn-primary"
+                    onClick={() => setActiveTab('add')}
+                  >
+                    Add Equipment
+                  </button>
+                </div>
               </div>
-              <EquipmentList equipment={equipment} />
-              <div className="content-footer">
-                <button onClick={() => setActiveTab('add')}>Add Equipment</button>
-              </div>
+              
+              {/* <SearchFilter
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                statusFilter={statusFilter}
+                onStatusFilterChange={setStatusFilter}
+                onClearFilters={handleClearFilters}
+                resultCount={filteredEquipment.length}
+                totalCount={equipment.length}
+              /> */}
+
+              <EquipmentList 
+                equipment={filteredEquipment}
+                onEdit={setEditingEquipment}
+                onDelete={setDeletingEquipment}
+              />
             </>
           ) : (
             <>
@@ -99,6 +185,33 @@ const App = () => {
             </>
           )}
         </div>
+
+        {/* Edit Modal */}
+        {/* {editingEquipment && (
+          <EditEquipmentModal
+            equipment={editingEquipment}
+            onSave={handleEditEquipment}
+            onClose={() => setEditingEquipment(null)}
+          />
+        )} */}
+
+        {/* Delete Confirmation Modal */}
+        {/* {deletingEquipment && (
+          <DeleteConfirmModal
+            equipment={deletingEquipment}
+            onConfirm={handleDeleteEquipment}
+            onCancel={() => setDeletingEquipment(null)}
+          />
+        )} */}
+
+        {/* Notification */}
+        {notification.show && (
+          <Notification
+            message={notification.message}
+            type={notification.type}
+            onClose={() => setNotification(prev => ({ ...prev, show: false }))}
+          />
+        )}
       </div>
     </div>
   );
