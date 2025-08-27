@@ -1,12 +1,13 @@
-import { Keyboard, Laptop, Monitor, Mouse, Package, Smartphone } from "lucide-react";
+import { Edit, Keyboard, Laptop, Monitor, Mouse, Package, Smartphone, Trash2 } from "lucide-react";
 import type { Equipment, EquipmentStatus, EquipmentType } from "../types/equipment";
 
 interface EquipmentListProps {
   equipment: Equipment[];
   onEdit: (equipment: Equipment) => void;
+  onDelete: (equipment: Equipment) => void;
 }
 
-const EquipmentList = ({ equipment, onEdit }: EquipmentListProps) => {
+const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
 
   // helper to get respective icon for equipment type
   const getEquipmentIcon = (type: EquipmentType) => {
@@ -71,6 +72,7 @@ const EquipmentList = ({ equipment, onEdit }: EquipmentListProps) => {
               <th>Location</th>
               <th>Purchase Date</th>
               <th>Value</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -111,14 +113,32 @@ const EquipmentList = ({ equipment, onEdit }: EquipmentListProps) => {
                   <td>{item.location || '-'}</td>
                   <td>{formatDate(item.purchaseDate)}</td>
                   <td className="currency">{formatCurrency(item.purchaseCost)}</td>
+                  <td>
+                    <div className="table-actions">
+                      <button
+                        onClick={() => onEdit(item)}
+                        className="action-btn action-btn-edit"
+                        title="Edit equipment"
+                      >
+                        <Edit size={16} />
+                      </button>
+                      <button
+                        onClick={() => onDelete(item)}
+                        className="action-btn action-btn-delete"
+                        title="Delete equipment"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan={9} className="empty-state">
+                <td colSpan={10} className="empty-state">
                   <Package size={48} />
                   <h3>No Equipment Found</h3>
-                  <p>Equipment will appear here once added to the system.</p>
+                  <p>Try adjusting your search or filter criteria.</p>
                 </td>
               </tr>
             )}
@@ -127,16 +147,18 @@ const EquipmentList = ({ equipment, onEdit }: EquipmentListProps) => {
       </div>
       
       {/* Summary footer */}
-      <div className="table-footer">
-        <div className="summary-info">
-          Showing {equipment.length} items
+      {equipment.length > 0 && (
+        <div className="table-footer">
+          <div className="summary-info">
+            Showing {equipment.length} items
+          </div>
+          <div className="total-value">
+            Total Value: {formatCurrency(
+              equipment.reduce((sum, item) => sum + item.purchaseCost, 0)
+            )}
+          </div>
         </div>
-        <div className="total-value">
-          Total Value: {formatCurrency(
-            equipment.reduce((sum, item) => sum + item.purchaseCost, 0)
-          )}
-        </div>
-      </div>
+      )}
     </div>
   );
 }

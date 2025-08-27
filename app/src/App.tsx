@@ -1,4 +1,4 @@
-import { use, useMemo, useState } from 'react'
+import { useMemo, useState } from 'react'
 import './App.css'
 import type { Equipment, EquipmentStats, EquipmentStatus, NotificationType } from './types/equipment'
 import { sampleEquipment } from './data/sampleData'
@@ -7,6 +7,8 @@ import EquipmentList from './components/EquipmentList'
 import AddEquipmentForm from './components/AddEquipmentForm'
 import Notification from './components/Notification'
 import TabNavigation from './components/TabNavigation'
+import SearchFilter from './components/SearchFilter'
+import EditEquipmentModal from './components/EditEquipmentModal'
 
 const App = () => {
   // sample data, will convert to dynamic later
@@ -159,7 +161,7 @@ const App = () => {
                 </div>
               </div>
               
-              {/* <SearchFilter
+              <SearchFilter
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
                 statusFilter={statusFilter}
@@ -167,7 +169,7 @@ const App = () => {
                 onClearFilters={handleClearFilters}
                 resultCount={filteredEquipment.length}
                 totalCount={equipment.length}
-              /> */}
+              />
 
               <EquipmentList 
                 equipment={filteredEquipment}
@@ -187,13 +189,13 @@ const App = () => {
         </div>
 
         {/* Edit Modal */}
-        {/* {editingEquipment && (
+        {editingEquipment && (
           <EditEquipmentModal
             equipment={editingEquipment}
             onSave={handleEditEquipment}
             onClose={() => setEditingEquipment(null)}
           />
-        )} */}
+        )}
 
         {/* Delete Confirmation Modal */}
         {/* {deletingEquipment && (
