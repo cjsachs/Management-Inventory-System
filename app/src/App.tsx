@@ -1,7 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState, useEffect } from 'react'
 import './App.css'
 import type { Equipment, EquipmentStats, EquipmentStatus, NotificationType } from './types/equipment'
-import { sampleEquipment } from './data/sampleData'
 import Header from './components/Header'
 import EquipmentList from './components/EquipmentList'
 import AddEquipmentForm from './components/AddEquipmentForm'
@@ -9,10 +8,12 @@ import Notification from './components/Notification'
 import TabNavigation from './components/TabNavigation'
 import SearchFilter from './components/SearchFilter'
 import EditEquipmentModal from './components/EditEquipmentModal'
+import DeleteConfirmModal from './components/DeleteConfirmModal'
+import { equipmentService } from './services/firebase/equipmentService'
 
 const App = () => {
   // sample data, will convert to dynamic later
-  const [equipment, setEquipment] = useState<Equipment[]>(sampleEquipment);
+  const [equipment, setEquipment] = useState<Equipment[]>([]);
   const [activeTab, setActiveTab] = useState<'inventory' | 'add'>('inventory');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<EquipmentStatus | 'all'>('all');
@@ -27,6 +28,7 @@ const App = () => {
     message: '',
     type: 'success'
   });
+  const [loading, setLoading] = useState<boolean>(true);
 
   // Calculate statistics for the header
   const calculateStats = (equipmentList: Equipment[]): EquipmentStats => {
@@ -198,13 +200,13 @@ const App = () => {
         )}
 
         {/* Delete Confirmation Modal */}
-        {/* {deletingEquipment && (
+        {deletingEquipment && (
           <DeleteConfirmModal
             equipment={deletingEquipment}
             onConfirm={handleDeleteEquipment}
             onCancel={() => setDeletingEquipment(null)}
           />
-        )} */}
+        )}
 
         {/* Notification */}
         {notification.show && (

@@ -10,7 +10,8 @@ const Header = ({ stats }: HeaderProps) => {
     <header className="header">
       <div className="header-content">
         <div className="header-title">
-          <Package className="header-icon" />
+          {/* <Package className="header-icon" /> */}
+          <img className='dugan-logo' src="src\static\images\dugan-logo.png" alt="" />
           <h1>IT Equipment Tracking System</h1>
         </div>
 
