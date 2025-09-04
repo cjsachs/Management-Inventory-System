@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+    match /databases/{database}/documents {
+        # Only IT staff can read and write equipment data
+        match /equipment/{document=**} {
+            allow read: if request.auth != null &&
+                exists($(database)/documents/itStaff/${request.auth.uid});
+            allow write: if request.auth != null &&
+                exists($(database)/documents/itStaff/${request.auth.uid});
+        }
+    }
+
+    # IT staff can read all users (for assignements)
+    match /users/{userId} {
+        allow read: if request.auth != null &&
+            exists($(database)/documents/itStaff/${request.auth.uid});
+        allow write: if false; # Only admin can write user data
+    }
+
+    # Only IT staff themselves
+    match /itStaff/{userId} {
+        allow read: if request.auth != null && request.auth.uid == userId;
+        allow write: if false; # Only admin can write user data
+    }
+}

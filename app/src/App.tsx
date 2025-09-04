@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react'
+import { useMemo, useState, useEffect, use } from 'react'
 import './App.css'
 import type { Equipment, EquipmentStats, EquipmentStatus, NotificationType } from './types/equipment'
 import Header from './components/Header'
@@ -10,10 +10,9 @@ import SearchFilter from './components/SearchFilter'
 import EditEquipmentModal from './components/EditEquipmentModal'
 import DeleteConfirmModal from './components/DeleteConfirmModal'
 import { equipmentService } from './services/firebase/equipmentService'
+import { auth } from './config/firebase'
 
 const App = () => {
-  // sample data, will convert to dynamic later
-  const [equipment, setEquipment] = useState<Equipment[]>([]);
   const [activeTab, setActiveTab] = useState<'inventory' | 'add'>('inventory');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<EquipmentStatus | 'all'>('all');
@@ -28,7 +27,35 @@ const App = () => {
     message: '',
     type: 'success'
   });
-  const [loading, setLoading] = useState<boolean>(true);
+  const [equipment, setEquipment] = useState<Equipment[]>([]);
+  const [user, setUser] = useState<import('firebase/auth').User | null>(null);
+  const [loadingUser, setLoadingUser] = useState<boolean>(true);
+
+  useEffect(()  => {
+    // subscribe to auth changes
+    const unsubscribeAuth = auth.onAuthStateChanged(currentUser => {
+      setUser(currentUser);
+      setLoadingUser(false);
+  });
+
+  // subscribe to equipment changes
+  let unsubscribeEquipment: (() => void) | null = null;
+
+  if (user) {
+    const result = equipmentService.subscribeToEquipmentList((equipment) => {
+      setEquipment(equipment);
+    });
+    unsubscribeEquipment = typeof result === 'function' ? result : () => {};
+  }
+
+    // cleanup subscription on unmount
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeEquipment) {
+        unsubscribeEquipment();
+      }
+    }
+  }, [user]);
 
   // Calculate statistics for the header
   const calculateStats = (equipmentList: Equipment[]): EquipmentStats => {
@@ -79,6 +106,7 @@ const App = () => {
 
       return true;
     } catch (error) {
+      console.error(error);
       // show error notification
       showNotification('Failed to add equipment', 'error');
       return false;
@@ -95,6 +123,7 @@ const App = () => {
         setEditingEquipment(null);
         return true;
     } catch (error) {
+      console.error(error);
       showNotification('Failed to update equipment', 'error');
       return false
     }
@@ -108,6 +137,7 @@ const App = () => {
       setDeletingEquipment(null);
       return true;
     } catch (error) {
+      console.error(error);
       showNotification('Failed to delete equipment', 'error');
       return false;
     }

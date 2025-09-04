@@ -19,5 +19,18 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// initalize services
 export const db = getFirestore(app);
 export const auth = getAuth(app);
+
+// collection names as constants to avoid typos
+export const COLLECTIONS = {
+  EQUIPMENT: 'equipment',
+  USERS: 'users',
+  IT_STAFF: 'itStaff',
+  ASSIGNMENTS: 'assignments',
+  ACTIVITY_LOGS: 'activityLogs',
+};
+
+export default app;
