@@ -4,7 +4,7 @@ import { Save, X } from "lucide-react";
 
 interface EditEquipmentModalProps {
     equipment: Equipment;
-    onSave: (equipment: Equipment) => boolean;
+    onSave: (equipment: Equipment) => Promise<boolean>;
     onClose: () => void;
 }
 
@@ -66,7 +66,7 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
         setIsSubmitting(true);
         await new Promise((resolve) => setTimeout(resolve, 500)); // simulate delay
         
-        const success = onSave(formData);
+        const success = await onSave(formData);
 
         if (success) {
             onClose();

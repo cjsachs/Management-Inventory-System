@@ -1,78 +1,97 @@
-import { useMemo, useState, useEffect, use } from 'react'
-import './App.css'
-import type { Equipment, EquipmentStats, EquipmentStatus, NotificationType } from './types/equipment'
-import Header from './components/Header'
-import EquipmentList from './components/EquipmentList'
-import AddEquipmentForm from './components/AddEquipmentForm'
-import Notification from './components/Notification'
-import TabNavigation from './components/TabNavigation'
-import SearchFilter from './components/SearchFilter'
-import EditEquipmentModal from './components/EditEquipmentModal'
-import DeleteConfirmModal from './components/DeleteConfirmModal'
-import { equipmentService } from './services/firebase/equipmentService'
-import { auth } from './config/firebase'
+import { useMemo, useState, useEffect } from 'react';
+import './App.css';
+import type {
+  Equipment,
+  EquipmentStats,
+  EquipmentStatus,
+  NotificationType,
+} from './types/equipment';
+import Header from './components/Header';
+import EquipmentList from './components/EquipmentList';
+import AddEquipmentForm from './components/AddEquipmentForm';
+import Notification from './components/Notification';
+import TabNavigation from './components/TabNavigation';
+import SearchFilter from './components/SearchFilter';
+import EditEquipmentModal from './components/EditEquipmentModal';
+import DeleteConfirmModal from './components/DeleteConfirmModal';
+import { equipmentService } from './services/firebase/equipmentService';
+import { Loader } from 'lucide-react';
+import { useAuth } from './contexts/AuthContext';
+import Login from './components/Login';
 
 const App = () => {
+  const { user, loading: authLoading, logout } = useAuth();
+  const [equipment, setEquipment] = useState<Equipment[]>([]);
+  const [loadingUser, setLoadingUser] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'inventory' | 'add'>('inventory');
   const [searchTerm, setSearchTerm] = useState<string>('');
-  const [statusFilter, setStatusFilter] = useState<EquipmentStatus | 'all'>('all');
-  const [editingEquipment, setEditingEquipment] = useState<Equipment | null>(null);
-  const [deletingEquipment, setDeletingEquipment] = useState<Equipment | null>(null);
+  const [statusFilter, setStatusFilter] = useState<EquipmentStatus | 'all'>(
+    'all'
+  );
+  const [editingEquipment, setEditingEquipment] = useState<Equipment | null>(
+    null
+  );
+  const [deletingEquipment, setDeletingEquipment] = useState<Equipment | null>(
+    null
+  );
   const [notification, setNotification] = useState<{
-    show: boolean,
-    message: string,
-    type: NotificationType
+    show: boolean;
+    message: string;
+    type: NotificationType;
   }>({
     show: false,
     message: '',
-    type: 'success'
+    type: 'success',
   });
-  const [equipment, setEquipment] = useState<Equipment[]>([]);
-  const [user, setUser] = useState<import('firebase/auth').User | null>(null);
-  const [loadingUser, setLoadingUser] = useState<boolean>(true);
 
-  useEffect(()  => {
-    // subscribe to auth changes
-    const unsubscribeAuth = auth.onAuthStateChanged(currentUser => {
-      setUser(currentUser);
+  // subscribe to equipment changes when user is authenticated
+  useEffect(() => {
+    if (!user) {
       setLoadingUser(false);
-  });
+      return;
+    }
 
-  // subscribe to equipment changes
-  let unsubscribeEquipment: (() => void) | null = null;
+    setLoadingUser(true);
 
-  if (user) {
-    const result = equipmentService.subscribeToEquipmentList((equipment) => {
-      setEquipment(equipment);
-    });
-    unsubscribeEquipment = typeof result === 'function' ? result : () => {};
-  }
+    // subscribe to equipment updates
+    const unsubscribeEquipment = equipmentService.subscribeToEquipment(
+      (equipmentList) => {
+        setEquipment(equipmentList);
+        setLoadingUser(false);
+      },
+      (error) => {
+        console.error('Error fetching equipment:', error);
+        showNotification('Error fetching equipment data', 'error');
+        setLoadingUser(false);
+      }
+    );
 
     // cleanup subscription on unmount
     return () => {
-      unsubscribeAuth();
-      if (unsubscribeEquipment) {
-        unsubscribeEquipment();
-      }
-    }
+      unsubscribeEquipment();
+    };
   }, [user]);
 
   // Calculate statistics for the header
   const calculateStats = (equipmentList: Equipment[]): EquipmentStats => {
     return {
       total: equipmentList.length,
-      available: equipmentList.filter(item => item.status === 'available').length,
-      assigned: equipmentList.filter(item => item.status === 'assigned').length,
-      maintenance: equipmentList.filter(item => item.status === 'maintenance').length,
-    }
-  }
+      available: equipmentList.filter((item) => item.status === 'available')
+        .length,
+      assigned: equipmentList.filter((item) => item.status === 'assigned')
+        .length,
+      maintenance: equipmentList.filter((item) => item.status === 'maintenance')
+        .length,
+    };
+  };
 
   // filter equipment by search term and status
   const filteredEquipment = useMemo(() => {
-    return equipment.filter(item => {
+    return equipment.filter((item) => {
       // search filter
       const searchLower = searchTerm.toLowerCase();
-      const matchesSearch = searchTerm === '' ||
+      const matchesSearch =
+        searchTerm === '' ||
         item.assetTag.toLowerCase().includes(searchLower) ||
         item.serialNumber.toLowerCase().includes(searchLower) ||
         item.brand.toLowerCase().includes(searchLower) ||
@@ -80,12 +99,13 @@ const App = () => {
         item.assignedTo.toLowerCase().includes(searchLower) ||
         item.department.toLowerCase().includes(searchLower) ||
         item.location.toLowerCase().includes(searchLower);
-      
-        // status filter
-        const matchesStatus = statusFilter === 'all' || item.status === statusFilter;
-        return matchesSearch && matchesStatus;
-  });
-}, [equipment, searchTerm, statusFilter]);
+
+      // status filter
+      const matchesStatus =
+        statusFilter === 'all' || item.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [equipment, searchTerm, statusFilter]);
 
   // handler for adding equipment
   const handleAddEquipment = (newEquipment: Omit<Equipment, 'id'>) => {
@@ -96,7 +116,7 @@ const App = () => {
         id: Date.now(), // simple ID generation
       };
       // add to equipment list
-      setEquipment(prev => [...prev, equipmentWithId]);
+      setEquipment((prev) => [...prev, equipmentWithId]);
 
       // show success notification
       showNotification('Equipment added successfully', 'success');
@@ -111,37 +131,83 @@ const App = () => {
       showNotification('Failed to add equipment', 'error');
       return false;
     }
-  }
+  };
 
-  // handler for editing equipment
-  const handleEditEquipment = (updatedEquipment: Equipment) => {
-    try {
-      setEquipment(prev => 
-      prev.map(item => 
-        item.id === updatedEquipment.id ? updatedEquipment : item));
-        showNotification('Equipment updated successfully', 'success');
-        setEditingEquipment(null);
-        return true;
-    } catch (error) {
-      console.error(error);
-      showNotification('Failed to update equipment', 'error');
-      return false
-    }
-  }
+  // Handle editing equipment
+  const handleEditEquipment = async (
+    updatedEquipment: Equipment
+  ): Promise<boolean> => {
+    if (!user) return false;
 
-  // handler for deleting equipment
-  const handleDeleteEquipment = (equipmentToDelete: Equipment) => {
-    try {
-      setEquipment(prev => prev.filter(item => item.id !== equipmentToDelete.id));
-      showNotification(`Equipment ${equipmentToDelete.assetTag} deleted successfully`, 'success');
-      setDeletingEquipment(null);
-      return true;
-    } catch (error) {
-      console.error(error);
-      showNotification('Failed to delete equipment', 'error');
-      return false;
-    }
-  }
+    // try {
+    //   // Find original equipment for comparison
+    //   const original = equipment.find(e => e.id === updatedEquipment.id);
+    //   if (!original) return false;
+
+    //   // Track changes
+    //   const changes: Record<string, any> = {};
+    //   Object.keys(updatedEquipment).forEach(key => {
+    //     if (original[key as keyof Equipment] !== updatedEquipment[key as keyof Equipment]) {
+    //       changes[key] = {
+    //         from: original[key as keyof Equipment],
+    //         to: updatedEquipment[key as keyof Equipment]
+    //       };
+    //     }
+    //   });
+
+    //   // Update in Firebase
+    //   await equipmentService.updateEquipment(
+    //     updatedEquipment.id.toString(),
+    //     updatedEquipment,
+    //     user.id!
+    //   );
+
+    //   // Log activity
+    //   await activityLogService.logEquipmentAction(
+    //     'updated',
+    //     updatedEquipment,
+    //     user.id!,
+    //     user.name,
+    //     changes,
+    //     `Updated equipment details`
+    //   );
+
+    //   showNotification('Equipment updated successfully!', 'success');
+    //   setEditingEquipment(null);
+    //   return true;
+    // } catch (error: any) {
+    //   console.error('Error updating equipment:', error);
+    //   showNotification(error.message || 'Failed to update equipment', 'error');
+    //   return false;
+    // }
+    return false; // Always return a boolean value
+  };
+
+  // Handle deleting equipment
+  const handleDeleteEquipment = async (equipmentToDelete: Equipment) => {
+    if (!user) return;
+
+    // try {
+    //   // Delete from Firebase
+    //   await equipmentService.deleteEquipment(equipmentToDelete.id.toString());
+
+    //   // Log activity
+    //   await activityLogService.logEquipmentAction(
+    //     'deleted',
+    //     equipmentToDelete,
+    //     user.id!,
+    //     user.name,
+    //     undefined,
+    //     `Deleted ${equipmentToDelete.type}: ${equipmentToDelete.brand} ${equipmentToDelete.model}`
+    //   );
+
+    //   showNotification(`Equipment ${equipmentToDelete.assetTag} deleted successfully!`, 'success');
+    //   setDeletingEquipment(null);
+    // } catch (error: any) {
+    //   console.error('Error deleting equipment:', error);
+    //   showNotification(error.message || 'Failed to delete equipment', 'error');
+    // }
+  };
 
   // handle clearing filters
   const handleClearFilters = () => {
@@ -150,33 +216,59 @@ const App = () => {
   };
 
   // show notification helper
-  const showNotification = (message: string, type: NotificationType)=> {
+  const showNotification = (message: string, type: NotificationType) => {
     setNotification({
       show: true,
       message,
-      type
+      type,
     });
-  }
+  };
 
   // auto-hide notification after 3s
   setTimeout(() => {
-    setNotification(prev => ({ ...prev, show: false }));
+    setNotification((prev) => ({ ...prev, show: false }));
   }, 3000);
+
+  // Handle logout
+  const handleLogout = async () => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
+
+  // Show loading spinner while checking auth
+  if (authLoading) {
+    return (
+      <div className="loading-container">
+        <Loader className="spinner-large" />
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
+  // show login if not authenticated
+  if (!user) {
+    return <Login />;
+  }
 
   const stats = calculateStats(equipment);
 
   return (
     <div className="app">
       <div className="app-container">
-        <Header stats={stats} />
-        
-        <TabNavigation 
-          activeTab={activeTab} 
-          onTabChange={setActiveTab} 
-        />
+        <Header stats={stats} user={user} onLogout={handleLogout} />
+
+        <TabNavigation activeTab={activeTab} onTabChange={setActiveTab} />
 
         <div className="main-content">
-          {activeTab === 'inventory' ? (
+          {loadingUser ? (
+            <div className="loading-container">
+              <Loader className="spinner-large" />
+              <p>Loading equipment data...</p>
+            </div>
+          ) : activeTab === 'inventory' ? (
             <>
               <div className="content-header">
                 <div>
@@ -184,7 +276,7 @@ const App = () => {
                   <p className="subtitle">Manage and track all IT equipment</p>
                 </div>
                 <div className="header-actions">
-                  <button 
+                  <button
                     className="btn btn-primary"
                     onClick={() => setActiveTab('add')}
                   >
@@ -192,7 +284,7 @@ const App = () => {
                   </button>
                 </div>
               </div>
-              
+
               <SearchFilter
                 searchTerm={searchTerm}
                 onSearchChange={setSearchTerm}
@@ -203,7 +295,7 @@ const App = () => {
                 totalCount={equipment.length}
               />
 
-              <EquipmentList 
+              <EquipmentList
                 equipment={filteredEquipment}
                 onEdit={setEditingEquipment}
                 onDelete={setDeletingEquipment}
@@ -213,7 +305,9 @@ const App = () => {
             <>
               <div className="content-header">
                 <h2>Add New Equipment</h2>
-                <p className="subtitle">Enter equipment details to add to inventory</p>
+                <p className="subtitle">
+                  Enter equipment details to add to inventory
+                </p>
               </div>
               <AddEquipmentForm onSubmit={handleAddEquipment} />
             </>
@@ -243,12 +337,17 @@ const App = () => {
           <Notification
             message={notification.message}
             type={notification.type}
-            onClose={() => setNotification(prev => ({ ...prev, show: false }))}
+            onClose={() =>
+              setNotification((prev) => ({ ...prev, show: false }))
+            }
           />
         )}
       </div>
+      <button onClick={() => console.log('User:', user)}>
+        Check Auth State
+      </button>
     </div>
   );
-}
+};
 
-export default App
+export default App;

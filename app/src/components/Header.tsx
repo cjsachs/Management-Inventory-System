@@ -1,20 +1,42 @@
-import { Package, CheckCircle, AlertCircle, ToolCase } from 'lucide-react';
+import { Package, CheckCircle, AlertCircle, ToolCaseIcon, LogOut, User } from 'lucide-react';
 import type { EquipmentStats } from '../types/equipment';
+import type { ITStaffUser } from '../types/firebase';
 
 interface HeaderProps {
   stats: EquipmentStats;
+  user?: ITStaffUser | null;
+  onLogout?: () => void;
 }
 
-const Header = ({ stats }: HeaderProps) => {
+const Header = ({ stats, user, onLogout }: HeaderProps) => {
   return (
     <header className="header">
       <div className="header-content">
-        <div className="header-title">
-          {/* <Package className="header-icon" /> */}
-          <img className='dugan-logo' src="src\static\images\dugan-logo.png" alt="" />
-          <h1>IT Equipment Tracking System</h1>
+        <div className="header-top">
+          <div className="header-title">
+            <Package className="header-icon" />
+            <h1>Equipment Tracking System</h1>
+          </div>
+          
+          {user && (
+            <div className="header-user">
+              <div className="user-info">
+                <User size={20} />
+                <div className="user-details">
+                  <span className="user-name">{user.name}</span>
+                  <span className="user-role">{user.role === 'admin' ? 'Administrator' : 'Technician'}</span>
+                </div>
+              </div>
+              {onLogout && (
+                <button onClick={onLogout} className="logout-btn">
+                  <LogOut size={18} />
+                  Logout
+                </button>
+              )}
+            </div>
+          )}
         </div>
-
+        
         <div className="stats-container">
           <div className="stat-card">
             <div className="stat-icon-container blue">
@@ -25,7 +47,7 @@ const Header = ({ stats }: HeaderProps) => {
               <div className="stat-label">Total Items</div>
             </div>
           </div>
-
+          
           <div className="stat-card">
             <div className="stat-icon-container green">
               <CheckCircle size={24} />
@@ -35,7 +57,7 @@ const Header = ({ stats }: HeaderProps) => {
               <div className="stat-label">Available</div>
             </div>
           </div>
-
+          
           <div className="stat-card">
             <div className="stat-icon-container purple">
               <AlertCircle size={24} />
@@ -45,10 +67,10 @@ const Header = ({ stats }: HeaderProps) => {
               <div className="stat-label">Assigned</div>
             </div>
           </div>
-
+          
           <div className="stat-card">
             <div className="stat-icon-container orange">
-              <ToolCase size={24} />
+              <ToolCaseIcon size={24} />
             </div>
             <div className="stat-details">
               <div className="stat-value">{stats.maintenance}</div>
