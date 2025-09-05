@@ -343,9 +343,6 @@ const App = () => {
           />
         )}
       </div>
-      <button onClick={() => console.log('User:', user)}>
-        Check Auth State
-      </button>
     </div>
   );
 };
