@@ -108,27 +108,28 @@ const App = () => {
   }, [equipment, searchTerm, statusFilter]);
 
   // handler for adding equipment
-  const handleAddEquipment = (newEquipment: Omit<Equipment, 'id'>) => {
+  const handleAddEquipment = async (newEquipment: Omit<Equipment, 'id'>) => {
+    if (!user) return false;
+
     try {
-      // generate a new ID (use backend for this)
-      const equipmentWithId: Equipment = {
-        ...newEquipment,
-        id: Date.now(), // simple ID generation
-      };
-      // add to equipment list
-      setEquipment((prev) => [...prev, equipmentWithId]);
+      // check if asset tag already exists
+      const exists = await equipmentService.assetTagExists(newEquipment.assetTag);
+      if (exists) {
+        showNotification('Asset tag already exists', 'error');
+        return false;
+      }
 
-      // show success notification
-      showNotification('Equipment added successfully', 'success');
+      // add equipment to Firebase
+      const equipmentId = await equipmentService.addEquipment(newEquipment, user.id!);
 
-      // switch to intentory tab to see new item
+      // log activity (not implemented here, placeholder for future)
+
+      showNotification('Equipment added successfully!', 'success');
       setActiveTab('inventory');
-
       return true;
-    } catch (error) {
-      console.error(error);
-      // show error notification
-      showNotification('Failed to add equipment', 'error');
+    } catch (error: any) {
+      console.error('Error adding equipment:', error);
+      showNotification(error.message || 'Failed to add equipment', 'error');
       return false;
     }
   };

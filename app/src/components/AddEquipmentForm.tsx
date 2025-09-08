@@ -20,7 +20,8 @@ type Equipment = {
 };
 
 interface AddEquipmentFormProps {
-  onSubmit: (equipment: Omit<Equipment, 'id'>) => boolean;
+  onSubmit: (equipment: Omit<Equipment, 'id'>) => Promise<boolean>;
+
 }
 
 const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
