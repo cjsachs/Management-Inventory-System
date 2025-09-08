@@ -10,7 +10,7 @@ export interface FirebaseEquipment extends Omit<Equipment, 'id'> {
 
 // IT Staff user
 export interface ITStaffUser {
-    id?: string; // user ID
+    id?: string; // user UID from Firebase Auth
     email: string;
     name: string;
     role: 'admin';
