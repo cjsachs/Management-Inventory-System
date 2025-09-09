@@ -38,6 +38,7 @@ export interface ActivityLog {
     entityType: 'equipment' | 'user' | 'assignment';
     entityId: string; // ID of the equipment/user/assignment
     entityName: string; // for display (e.g. "IT-2025-001")
+    changes?: Record<string, any>; // optional changes made
     performedBy: string; // user ID
     performedByName: string; // user name for display
     timestamp: Timestamp;

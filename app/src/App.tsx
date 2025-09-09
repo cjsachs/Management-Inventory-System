@@ -18,6 +18,7 @@ import { equipmentService } from './services/firebase/equipmentService';
 import { Loader } from 'lucide-react';
 import { useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
+import { activityLogService } from './services/firebase/activityLogService';
 
 const App = () => {
   const { user, loading: authLoading, logout } = useAuth();
@@ -135,79 +136,94 @@ const App = () => {
   };
 
   // Handle editing equipment
-  const handleEditEquipment = async (
-    updatedEquipment: Equipment
-  ): Promise<boolean> => {
+  const handleEditEquipment = async (updatedEquipment: Equipment): Promise<boolean> => {
     if (!user) return false;
 
-    // try {
-    //   // Find original equipment for comparison
-    //   const original = equipment.find(e => e.id === updatedEquipment.id);
-    //   if (!original) return false;
+    try {
+      console.log('Updating equipment:', updatedEquipment);
+      // Find original equipment for comparison
+      const original = equipment.find(e => e.id === updatedEquipment.id);
+      if (!original) {
+        console.error('Original equipment not found');
+        return false;
+      }
 
-    //   // Track changes
-    //   const changes: Record<string, any> = {};
-    //   Object.keys(updatedEquipment).forEach(key => {
-    //     if (original[key as keyof Equipment] !== updatedEquipment[key as keyof Equipment]) {
-    //       changes[key] = {
-    //         from: original[key as keyof Equipment],
-    //         to: updatedEquipment[key as keyof Equipment]
-    //       };
-    //     }
-    //   });
+      // Track changes
+      const changes: Record<string, any> = {};
+      Object.keys(updatedEquipment).forEach(key => {
+        if (original[key as keyof Equipment] !== updatedEquipment[key as keyof Equipment]) {
+          changes[key] = {
+            from: original[key as keyof Equipment],
+            to: updatedEquipment[key as keyof Equipment]
+          };
+        }
+      });
 
-    //   // Update in Firebase
-    //   await equipmentService.updateEquipment(
-    //     updatedEquipment.id.toString(),
-    //     updatedEquipment,
-    //     user.id!
-    //   );
+      console.log('Changes detected:', changes);
 
-    //   // Log activity
-    //   await activityLogService.logEquipmentAction(
-    //     'updated',
-    //     updatedEquipment,
-    //     user.id!,
-    //     user.name,
-    //     changes,
-    //     `Updated equipment details`
-    //   );
+      // convert id to string for Firebase
+      const equipmentId = typeof updatedEquipment.id === 'number' 
+      ? updatedEquipment.id.toString() 
+      : updatedEquipment.id;
 
-    //   showNotification('Equipment updated successfully!', 'success');
-    //   setEditingEquipment(null);
-    //   return true;
-    // } catch (error: any) {
-    //   console.error('Error updating equipment:', error);
-    //   showNotification(error.message || 'Failed to update equipment', 'error');
-    //   return false;
-    // }
-    return false; // Always return a boolean value
+      // Update in Firebase
+      await equipmentService.updateEquipment(
+        equipmentId,
+        updatedEquipment,
+        user.id!
+      );
+
+      // Log activity
+      await activityLogService.logEquipmentAction(
+        'updated',
+        updatedEquipment,
+        user.id!,
+        user.name,
+        changes,
+        `Updated equipment details`
+      );
+
+      showNotification('Equipment updated successfully!', 'success');
+      setEditingEquipment(null);
+      return true;
+    } catch (error: any) {
+      console.error('Error updating equipment:', error);
+      showNotification(error.message || 'Failed to update equipment', 'error');
+      return false;
+    }
   };
 
   // Handle deleting equipment
   const handleDeleteEquipment = async (equipmentToDelete: Equipment) => {
     if (!user) return;
 
-    // try {
-    //   // Delete from Firebase
-    //   await equipmentService.deleteEquipment(equipmentToDelete.id.toString());
+    try {
+      console.log('Deleting equipment:', equipmentToDelete);
 
-    //   // Log activity
-    //   await activityLogService.logEquipmentAction(
-    //     'deleted',
-    //     equipmentToDelete,
-    //     user.id!,
-    //     user.name,
-    //     undefined,
-    //     `Deleted ${equipmentToDelete.type}: ${equipmentToDelete.brand} ${equipmentToDelete.model}`
-    //   );
+      // convert id to string for Firebase
+      const equipmentId = typeof equipmentToDelete.id === 'number' 
+      ? equipmentToDelete.id.toString() 
+      : equipmentToDelete.id;
+      
+      // Delete from Firebase
+      await equipmentService.deleteEquipment(equipmentId);
 
-    //   showNotification(`Equipment ${equipmentToDelete.assetTag} deleted successfully!`, 'success');
-    //   setDeletingEquipment(null);
-    // } catch (error: any) {
-    //   console.error('Error deleting equipment:', error);
-    //   showNotification(error.message || 'Failed to delete equipment', 'error');
-    // }
+      // Log activity
+      await activityLogService.logEquipmentAction(
+        'deleted',
+        equipmentToDelete,
+        user.id!,
+        user.name,
+        undefined,
+        `Deleted ${equipmentToDelete.type}: ${equipmentToDelete.brand} ${equipmentToDelete.model}`
+      );
+
+      showNotification(`Equipment ${equipmentToDelete.assetTag} deleted successfully!`, 'success');
+      setDeletingEquipment(null);
+    } catch (error: any) {
+      console.error('Error deleting equipment:', error);
+      showNotification(error.message || 'Failed to delete equipment', 'error');
+    }
   };
 
   // handle clearing filters

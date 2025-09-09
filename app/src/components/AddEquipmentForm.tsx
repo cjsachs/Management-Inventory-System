@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { EquipmentStatus, EquipmentType } from '../types/equipment';
+import type { EquipmentStatus, EquipmentType, LocationStatus } from '../types/equipment';
 import { Save, X } from 'lucide-react';
 
 // Define Equipment type if not already imported
@@ -13,8 +13,7 @@ type Equipment = {
   assignedTo: string;
   employeeId: string;
   department: string;
-  location: string;
-  purchaseDate: string;
+  location: LocationStatus;
   purchaseCost: number;
   notes: string;
 };
@@ -35,13 +34,12 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
     assignedTo: '',
     employeeId: '',
     department: '',
-    location: '',
-    purchaseDate: '',
+    location: 'Dugan West' as LocationStatus,
     purchaseCost: 0,
     notes: '',
   };
 
-  const [formData, setFormData] = useState(initialFormState);
+  const [formData, setFormData] = useState<typeof initialFormState>(initialFormState);
   const [errors, setErrors] = useState<
     Partial<Record<keyof typeof formData, string>>
   >({});
@@ -54,6 +52,13 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
     'Phone',
     'Keyboard',
     'Mouse',
+  ];
+
+  // location options for dropdown
+  const locationOptions: LocationStatus[] = [
+    'Dugan West',
+    'Dugan Main',
+    'Dugan 1280',
   ];
 
   // status options for dropdown
@@ -236,6 +241,39 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
               />
               {errors.serialNumber && (
                 <span className="error-message">{errors.serialNumber}</span>
+              )}
+            </div>
+
+            {/* location field */}
+            <div className="form-group">
+              <label htmlFor="location">Location</label>
+              <select
+                id="location"
+                name="location"
+                value={formData.location}
+                onChange={handleChange}
+              >
+                {locationOptions.map((location) => (
+                  <option key={location} value={location}>
+                    {location.charAt(0).toUpperCase() + location.slice(1)}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="purchaseCost">Purchase Cost</label>
+              <input
+                type="number"
+                id="purchaseCost"
+                name="purchaseCost"
+                value={formData.purchaseCost}
+                onChange={handleChange}
+                placeholder="$0.00"
+                className={errors.purchaseCost ? 'error' : ''}
+              />
+              {errors.purchaseCost && (
+                <span className="error-message">{errors.purchaseCost}</span>
               )}
             </div>
 

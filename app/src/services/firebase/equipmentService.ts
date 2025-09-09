@@ -23,7 +23,7 @@ class EquipmentService {
   // convert firestore document to equipment type
   private convertToEquipment(id: string, data: FirebaseEquipment): Equipment {
     return {
-      id: parseInt(id) || Date.now(),
+      id: id as any,
       assetTag: data.assetTag,
       type: data.type,
       brand: data.brand,
@@ -35,7 +35,6 @@ class EquipmentService {
       department: data.department,
       location: data.location,
       purchaseCost: data.purchaseCost,
-      purchaseDate: data.purchaseDate,
       notes: data.notes,
     };
   }
@@ -45,10 +44,8 @@ class EquipmentService {
     callback: (equipment: Equipment[]) => void,
     errorCallback?: (error: Error) => void
   ): Unsubscribe {
-    const q = query(
-      collection(db, COLLECTIONS.EQUIPMENT),
-      orderBy('createdAt', 'desc')
-    );
+    try {
+      const q = query(collection(db, COLLECTIONS.EQUIPMENT));
 
     return onSnapshot(
       q,
@@ -68,6 +65,13 @@ class EquipmentService {
         }
       }
     );
+  } catch (error) {
+      console.error('Error setting up equipment subscription:', error);
+      if (errorCallback) {
+        errorCallback(error as Error);
+      }
+      return () => {};
+    }
   }
 
   // get all equipment (one-time fetch)

@@ -11,8 +11,13 @@ export type EquipmentType =
   | 'Keyboard'
   | 'Mouse';
 
+  export type LocationStatus =
+  | 'Dugan West'
+  | 'Dugan Main'
+  | 'Dugan 1280'
+
 export interface Equipment {
-  id: number;
+  id: string | number;
   assetTag: string;
   type: EquipmentType;
   brand: string;
@@ -23,7 +28,6 @@ export interface Equipment {
   employeeId: string;
   department: string;
   location: string;
-  purchaseDate: string;
   purchaseCost: number;
   notes: string;
 }

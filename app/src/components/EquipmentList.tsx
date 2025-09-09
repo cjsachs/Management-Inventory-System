@@ -42,16 +42,6 @@ const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
     }).format(amount);
   }
 
-  // Function to Format Date
-  const formatDate = (dateString: string): string => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric'
-    });
-  };
-
   // function to capitalize the first letter of each status
   const formatStatus = (status: EquipmentStatus): string => {
     return status.charAt(0).toUpperCase() + status.slice(1);
@@ -70,15 +60,14 @@ const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
               <th>Status</th>
               <th>Assigned To</th>
               <th>Location</th>
-              <th>Purchase Date</th>
               <th>Value</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             {equipment.length > 0 ? (
-              equipment.map((item) => (
-                <tr key={item.id}>
+              equipment.map((item, idx) => (
+                <tr key={idx}>
                   <td>
                     <div className="asset-tag">
                       {getEquipmentIcon(item.type)}
@@ -111,7 +100,6 @@ const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
                     )}
                   </td>
                   <td>{item.location || '-'}</td>
-                  <td>{formatDate(item.purchaseDate)}</td>
                   <td className="currency">{formatCurrency(item.purchaseCost)}</td>
                   <td>
                     <div className="table-actions">
