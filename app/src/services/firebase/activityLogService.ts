@@ -1,10 +1,14 @@
 import { addDoc, collection, getDocs, limit, onSnapshot, orderBy, query, serverTimestamp, Timestamp, where } from "firebase/firestore";
 import type { Equipment } from "../../types/equipment";
 import type { ActivityLog } from "../../types/firebase";
-import { db } from "../../config/firebase";
+import { db, COLLECTIONS } from "../../config/firebase";
 import type { Unsubscribe } from "firebase/auth";
 
 class ActivityLogService {
+    private loggingEnabled: boolean = true;
+    private errorCount: number = 0;
+    private maxErrors: number = 3;
+
   // Activity log service methods...
   async logEquipmentAction(
     action: ActivityLog['action'],
@@ -15,6 +19,12 @@ class ActivityLogService {
     changes?: Record<string, { from: any; to: any }>,
     details?: string
   ): Promise<void> {
+    // skip logging if error threshold exceeded
+    if (!this.loggingEnabled) {
+        console.warn('Activity logging is disabled due to previous errors.');
+        return;
+    }
+
     // Implementation here...
     try {
         const logEntry: Omit<ActivityLog, 'id'> = {
@@ -22,16 +32,61 @@ class ActivityLogService {
             entityType: 'equipment',
             entityId: 'id' in equipment ? equipment.id.toString() : 'new',
             entityName: equipment.assetTag,
-            changes,
+            changes, 
             performedByName: userName,
             performedBy: userId,
             timestamp: serverTimestamp() as Timestamp,
             details
         };
 
-        await addDoc(collection(db, 'COLLECTIONS.ACTIVITY_LOGS'), logEntry);
+        console.log('Logging equipment action:', logEntry);
+ 
+        await addDoc(collection(db, COLLECTIONS.ACTIVITY_LOGS), logEntry);
+        this.errorCount = 0; // reset error count on successful log
     } catch (error) {
         console.error('Error logging equipment action:', error);
+        this.errorCount++;
+
+        if (typeof error === 'object' && error !== null && 'code' in error && (error as { code?: string }).code === 'permission-denied') {
+        console.error('Permission denied for activity logging. Check Firebase rules for activityLogs collection.');
+        console.error('Make sure the activityLogs collection exists and has proper permissions.');
+      } else {
+        console.error('Error logging activity:', error);
+      }
+
+        if (this.errorCount >= this.maxErrors) {
+            this.loggingEnabled = false;
+            console.error('Disabling activity logging due to repeated errors.');
+        }
+    }
+}
+
+// re-enable logging (for admin use)
+enableLogging(): void {
+    this.loggingEnabled = true;
+    this.errorCount = 0;
+    console.log('Activity logging has been re-enabled.');
+}
+
+// check if logging is enabled
+async testLogging(): Promise<boolean> {
+    try {
+        const testLog = {
+            action: 'test' as ActivityLog['action'],
+            entityType: 'system' as ActivityLog['entityType'],
+            entityId: 'test',
+            entityName: 'Test',
+            performedByName: 'System',
+            performedBy: 'system',
+            timestamp: serverTimestamp() as Timestamp,
+            details: 'This is a test log entry.'
+        };
+        await addDoc(collection(db, COLLECTIONS.ACTIVITY_LOGS), testLog);
+        console.log('Test log entry created successfully.');
+        return true;
+    } catch (error) {
+        console.error('Error creating test log entry:', error);
+        return false; 
     }
 }
   
@@ -75,7 +130,7 @@ async getActivityLogs(
                 constraints.push(limit(100)); // default limit
             }
 
-            const q = query(collection(db, 'COLLECTIONS.ACTIVITY_LOGS'), ...constraints);
+            const q = query(collection(db, COLLECTIONS.ACTIVITY_LOGS), ...constraints);
             const snapshot = await getDocs(q);
 
             return snapshot.docs.map(doc => ({ id: doc.id, ...(doc.data() as ActivityLog) }));

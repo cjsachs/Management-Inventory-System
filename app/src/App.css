@@ -28,6 +28,11 @@ body {
   min-height: 100vh;
 }
 
+.dp-logo {
+  width: 120px;
+  height: 80px;
+}
+
 .app {
   min-height: 100vh;
   padding: 20px;
