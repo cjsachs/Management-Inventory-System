@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
-import type { EquipmentStatus, EquipmentType, LocationStatus } from '../types/equipment';
+import type {
+  EquipmentStatus,
+  EquipmentType,
+  LocationStatus,
+} from '../types/equipment';
 import { Save, X } from 'lucide-react';
 
 // Define Equipment type if not already imported
@@ -8,6 +12,7 @@ type Equipment = {
   type: EquipmentType;
   brand: string;
   model: string;
+  processor: string;
   serialNumber: string;
   status: EquipmentStatus;
   assignedTo: string;
@@ -20,16 +25,16 @@ type Equipment = {
 
 interface AddEquipmentFormProps {
   onSubmit: (equipment: Omit<Equipment, 'id'>) => Promise<boolean>;
-
 }
 
 const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
   const initialFormState = {
-    assetTag: '',
+    assetTag: 'IT-2025-',
     type: 'Laptop' as EquipmentType,
     brand: '',
     model: '',
     serialNumber: '',
+    processor: '',
     status: 'available' as EquipmentStatus,
     assignedTo: '',
     employeeId: '',
@@ -39,7 +44,8 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
     notes: '',
   };
 
-  const [formData, setFormData] = useState<typeof initialFormState>(initialFormState);
+  const [formData, setFormData] =
+    useState<typeof initialFormState>(initialFormState);
   const [errors, setErrors] = useState<
     Partial<Record<keyof typeof formData, string>>
   >({});
@@ -49,17 +55,14 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
   const equipmentTypes: EquipmentType[] = [
     'Laptop',
     'Desktop',
+    'Tablet',
     'Phone',
     'Keyboard',
     'Mouse',
   ];
 
   // location options for dropdown
-  const locationOptions: LocationStatus[] = [
-    'Dugan West',
-    'Dugan Main',
-    'Dugan 1280',
-  ];
+  const locationOptions: LocationStatus[] = ['Dugan West', 'Dugan 1280'];
 
   // status options for dropdown
   const statusOptions: EquipmentStatus[] = [
@@ -106,6 +109,9 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
     if (!formData.brand.trim()) {
       newErrors.brand = 'Brand is required';
     }
+    if (!formData.processor.trim()) {
+      newErrors.processor = 'Processor is required';
+    }
 
     // asset tag format validation (ex: IT-YYYY-XXX)
     const assetTagPattern = /^IT-\d{4}-\w{3}$/;
@@ -138,7 +144,7 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
     // call parent component's onSubmit function
     const success = onSubmit(formData);
 
-    if (success) {
+    if (await success) {
       // reset form on successful submission
       setFormData(initialFormState);
       setErrors({});
@@ -223,6 +229,18 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
                 value={formData.model}
                 onChange={handleChange}
                 placeholder="Latitude 5520"
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="processor">Processor</label>
+              <input
+                type="text"
+                id="processor"
+                name="processor"
+                value={formData.processor}
+                onChange={handleChange}
+                placeholder="Intel Core i7-11700K, AMD Ryzen 5, Apple M1, etc."
               />
             </div>
 

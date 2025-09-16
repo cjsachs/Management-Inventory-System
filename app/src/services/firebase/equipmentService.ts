@@ -28,6 +28,7 @@ class EquipmentService {
       type: data.type,
       brand: data.brand,
       model: data.model,
+      processor: data.processor,
       serialNumber: data.serialNumber,
       status: data.status,
       assignedTo: data.assignedTo,

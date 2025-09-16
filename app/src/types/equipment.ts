@@ -7,13 +7,13 @@ export type EquipmentStatus =
 export type EquipmentType =
   | 'Laptop'
   | 'Desktop'
+  | 'Tablet'
   | 'Phone'
   | 'Keyboard'
   | 'Mouse';
 
   export type LocationStatus =
   | 'Dugan West'
-  | 'Dugan Main'
   | 'Dugan 1280'
 
 export interface Equipment {
@@ -22,6 +22,7 @@ export interface Equipment {
   type: EquipmentType;
   brand: string;
   model: string;
+  processor: string;
   serialNumber: string;
   status: EquipmentStatus;
   assignedTo: string;

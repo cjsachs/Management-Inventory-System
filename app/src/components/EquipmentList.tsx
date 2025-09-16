@@ -1,4 +1,4 @@
-import { Edit, Keyboard, Laptop, Monitor, Mouse, Package, Smartphone, Trash2 } from "lucide-react";
+import { Edit, Keyboard, Laptop, Monitor, Mouse, Package, Smartphone, Tablet, Trash2 } from "lucide-react";
 import type { Equipment, EquipmentStatus, EquipmentType } from "../types/equipment";
 
 interface EquipmentListProps {
@@ -14,6 +14,7 @@ const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
     const iconMap: Record<EquipmentType, React.ComponentType<{ size?: number }>> = {
       'Laptop': Laptop,
       'Desktop': Monitor,
+      'Tablet': Tablet,
       'Phone': Smartphone,
       'Keyboard': Keyboard,
       'Mouse': Mouse
@@ -56,6 +57,7 @@ const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
               <th>Asset Tag</th>
               <th>Type</th>
               <th>Brand & Model</th>
+              <th>Processor</th>
               <th>Serial Number</th>
               <th>Status</th>
               <th>Assigned To</th>
@@ -81,6 +83,7 @@ const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
                       {item.model && <span className="model">{item.model}</span>}
                     </div>
                   </td>
+                  <td>{item.processor || '-'}</td>
                   <td className="serial-number">{item.serialNumber}</td>
                   <td>
                     <span className={getStatusBadgeClass(item.status)}>

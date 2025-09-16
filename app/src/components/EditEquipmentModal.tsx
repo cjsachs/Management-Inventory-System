@@ -13,7 +13,7 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
     const [errors, setErrors] = useState<Partial<Record<keyof Equipment, string>>>({});
     const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-    const equipmentTypes: EquipmentType[] = ['Laptop', 'Desktop', 'Keyboard', 'Mouse', 'Phone'];
+    const equipmentTypes: EquipmentType[] = ['Laptop', 'Desktop', 'Tablet', 'Keyboard', 'Mouse', 'Phone'];
 
     const statusOptions: EquipmentStatus[] = ['available', 'assigned', 'maintenance', 'retired'];
 
@@ -158,6 +158,19 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
                     id="edit-model"
                     name="model"
                     value={formData.model}
+                    onChange={handleChange}
+                  />
+                </div>
+
+                <div className="form-group">
+                  <label htmlFor="edit-processor" className="required">
+                    Processor
+                  </label>
+                  <input
+                    type="text"
+                    id="edit-processor"
+                    name="processor"
+                    value={formData.processor}
                     onChange={handleChange}
                   />
                 </div>

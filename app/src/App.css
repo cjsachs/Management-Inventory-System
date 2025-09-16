@@ -964,6 +964,10 @@ background: #141e30; /* fallback for old browsers */
   display: flex;
   flex-direction: column;
   animation: slideUp 0.3s ease;
+  max-height: 90vh !important;
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
 @keyframes slideUp {
@@ -1019,6 +1023,9 @@ background: #141e30; /* fallback for old browsers */
   flex: 1;
   overflow-y: auto;
   padding: 0;
+  flex: 1 1 auto !important;
+  overflow-y: auto !important;
+  max-height: calc(90vh - 140px) !important; /* Account for header/footer */
 }
 
 .modal-footer {
@@ -1027,6 +1034,13 @@ background: #141e30; /* fallback for old browsers */
   display: flex;
   justify-content: flex-end;
   gap: 12px;
+}
+
+.modal form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
 }
 
 .modal-content {

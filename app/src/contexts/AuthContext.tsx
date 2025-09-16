@@ -27,7 +27,6 @@ const AuthProvider: React.FC<AuthProviderProps> = ({
     // subscribe to auth state changes
     const unsubscribe = authService.onAuthChanged(
       (user) => {
-        console.log('Auth state changed:', user);
         setUser(user);
         setLoading(false);
       },

@@ -86,9 +86,12 @@ const App = () => {
     };
   };
 
+  
+
   // filter equipment by search term and status
   const filteredEquipment = useMemo(() => {
     return equipment.filter((item) => {
+      console.log('Filtering item:', item);
       // search filter
       const searchLower = searchTerm.toLowerCase();
       const matchesSearch =
@@ -97,6 +100,7 @@ const App = () => {
         item.serialNumber.toLowerCase().includes(searchLower) ||
         item.brand.toLowerCase().includes(searchLower) ||
         item.model.toLowerCase().includes(searchLower) ||
+        item.processor.toLowerCase().includes(searchLower) ||
         item.assignedTo.toLowerCase().includes(searchLower) ||
         item.department.toLowerCase().includes(searchLower) ||
         item.location.toLowerCase().includes(searchLower);
