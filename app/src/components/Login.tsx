@@ -28,7 +28,7 @@ const Login = () => {
     <div className="login-container">
       <div className="login-box">
         <div className="login-header">
-            <img src="public/images/dugan-logo.png" alt="Logo" className="dp-logo" />
+            <img src="/images/dugan-logo.png" alt="Logo" className="dp-logo" />
           <h1>Equipment Tracker</h1>
           <p>IT Department Access Only</p>
         </div>

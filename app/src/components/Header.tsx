@@ -14,7 +14,7 @@ const Header = ({ stats, user, onLogout }: HeaderProps) => {
       <div className="header-content">
         <div className="header-top">
           <div className="header-title">
-            <img src="public/images/dugan-logo.png" alt="Logo" className="dp-logo" />
+            <img src="/images/dugan-logo.png" alt="Logo" className="dp-logo" />
             <h1>Equipment Tracking System</h1>
           </div>
           
