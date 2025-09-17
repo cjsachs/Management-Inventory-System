@@ -80,8 +80,9 @@ class EquipmentService {
     try {
       const q = query(
         collection(db, COLLECTIONS.EQUIPMENT),
-        orderBy('createdAt', 'desc')
+        orderBy('assetTag', 'asc')
       );
+      console.log('Query:', q);
 
       const querySnapshot = await getDocs(q);
       const equipment: Equipment[] = querySnapshot.docs.map((doc) => {

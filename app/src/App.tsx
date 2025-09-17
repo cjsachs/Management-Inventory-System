@@ -86,12 +86,20 @@ const App = () => {
     };
   };
 
-  
-
   // filter equipment by search term and status
   const filteredEquipment = useMemo(() => {
+    // Sort equipment by asset tag in descending order
+    setEquipment(
+      equipment.sort((a, b) => {
+        // Extract the last numeric part after the last dash
+        const numA = parseInt(a.assetTag.split('-').pop() ?? '', 10);
+        const numB = parseInt(b.assetTag.split('-').pop() ?? '', 10);
+
+        // Descending order
+        return numB - numA;
+      })
+    );
     return equipment.filter((item) => {
-      console.log('Filtering item:', item);
       // search filter
       const searchLower = searchTerm.toLowerCase();
       const matchesSearch =
@@ -118,14 +126,19 @@ const App = () => {
 
     try {
       // check if asset tag already exists
-      const exists = await equipmentService.assetTagExists(newEquipment.assetTag);
+      const exists = await equipmentService.assetTagExists(
+        newEquipment.assetTag
+      );
       if (exists) {
         showNotification('Asset tag already exists', 'error');
         return false;
       }
 
       // add equipment to Firebase
-      const equipmentId = await equipmentService.addEquipment(newEquipment, user.id!);
+      const equipmentId = await equipmentService.addEquipment(
+        newEquipment,
+        user.id!
+      );
       console.log(equipmentId, 'test');
 
       // log activity (not implemented here, placeholder for future)
@@ -141,13 +154,15 @@ const App = () => {
   };
 
   // Handle editing equipment
-  const handleEditEquipment = async (updatedEquipment: Equipment): Promise<boolean> => {
+  const handleEditEquipment = async (
+    updatedEquipment: Equipment
+  ): Promise<boolean> => {
     if (!user) return false;
 
     try {
       console.log('Updating equipment:', updatedEquipment);
       // Find original equipment for comparison
-      const original = equipment.find(e => e.id === updatedEquipment.id);
+      const original = equipment.find((e) => e.id === updatedEquipment.id);
       if (!original) {
         console.error('Original equipment not found');
         return false;
@@ -155,11 +170,14 @@ const App = () => {
 
       // Track changes
       const changes: Record<string, any> = {};
-      Object.keys(updatedEquipment).forEach(key => {
-        if (original[key as keyof Equipment] !== updatedEquipment[key as keyof Equipment]) {
+      Object.keys(updatedEquipment).forEach((key) => {
+        if (
+          original[key as keyof Equipment] !==
+          updatedEquipment[key as keyof Equipment]
+        ) {
           changes[key] = {
             from: original[key as keyof Equipment],
-            to: updatedEquipment[key as keyof Equipment]
+            to: updatedEquipment[key as keyof Equipment],
           };
         }
       });
@@ -167,9 +185,10 @@ const App = () => {
       console.log('Changes detected:', changes);
 
       // convert id to string for Firebase
-      const equipmentId = typeof updatedEquipment.id === 'number' 
-      ? updatedEquipment.id.toString() 
-      : updatedEquipment.id;
+      const equipmentId =
+        typeof updatedEquipment.id === 'number'
+          ? updatedEquipment.id.toString()
+          : updatedEquipment.id;
 
       // Update in Firebase
       await equipmentService.updateEquipment(
@@ -206,10 +225,11 @@ const App = () => {
       console.log('Deleting equipment:', equipmentToDelete);
 
       // convert id to string for Firebase
-      const equipmentId = typeof equipmentToDelete.id === 'number' 
-      ? equipmentToDelete.id.toString() 
-      : equipmentToDelete.id;
-      
+      const equipmentId =
+        typeof equipmentToDelete.id === 'number'
+          ? equipmentToDelete.id.toString()
+          : equipmentToDelete.id;
+
       // Delete from Firebase
       await equipmentService.deleteEquipment(equipmentId);
 
@@ -223,7 +243,10 @@ const App = () => {
         `Deleted ${equipmentToDelete.type}: ${equipmentToDelete.brand} ${equipmentToDelete.model}`
       );
 
-      showNotification(`Equipment ${equipmentToDelete.assetTag} deleted successfully!`, 'success');
+      showNotification(
+        `Equipment ${equipmentToDelete.assetTag} deleted successfully!`,
+        'success'
+      );
       setDeletingEquipment(null);
     } catch (error: any) {
       console.error('Error deleting equipment:', error);
