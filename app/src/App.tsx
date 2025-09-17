@@ -126,7 +126,7 @@ const App = () => {
 
       // add equipment to Firebase
       const equipmentId = await equipmentService.addEquipment(newEquipment, user.id!);
-      console.log(equipmentId)
+      console.log(equipmentId, 'test');
 
       // log activity (not implemented here, placeholder for future)
 
