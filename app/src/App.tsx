@@ -135,13 +135,20 @@ const App = () => {
       }
 
       // add equipment to Firebase
-      const equipmentId = await equipmentService.addEquipment(
+      await equipmentService.addEquipment(
         newEquipment,
         user.id!
       );
-      console.log(equipmentId, 'test');
 
-      // log activity (not implemented here, placeholder for future)
+      // log activity
+      await activityLogService.logEquipmentAction(
+        'added',
+        { ...newEquipment },
+        user.id!,
+        user.name,
+        undefined,
+        `Added ${newEquipment.type}: ${newEquipment.brand} ${newEquipment.model}`
+      );
 
       showNotification('Equipment added successfully!', 'success');
       setActiveTab('inventory');

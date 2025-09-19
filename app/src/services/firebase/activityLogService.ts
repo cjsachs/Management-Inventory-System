@@ -25,19 +25,23 @@ class ActivityLogService {
         return;
     }
 
-    // Implementation here...
     try {
         const logEntry: Omit<ActivityLog, 'id'> = {
             action,
             entityType: 'equipment',
             entityId: 'id' in equipment ? equipment.id.toString() : 'new',
             entityName: equipment.assetTag,
-            changes, 
             performedByName: userName,
             performedBy: userId,
             timestamp: serverTimestamp() as Timestamp,
-            details
         };
+
+        if (changes) {
+            logEntry.changes = changes;
+        }
+        if (details) {
+            logEntry.details = details;
+        }
 
         console.log('Logging equipment action:', logEntry);
  
@@ -66,28 +70,6 @@ enableLogging(): void {
     this.loggingEnabled = true;
     this.errorCount = 0;
     console.log('Activity logging has been re-enabled.');
-}
-
-// check if logging is enabled
-async testLogging(): Promise<boolean> {
-    try {
-        const testLog = {
-            action: 'test' as ActivityLog['action'],
-            entityType: 'system' as ActivityLog['entityType'],
-            entityId: 'test',
-            entityName: 'Test',
-            performedByName: 'System',
-            performedBy: 'system',
-            timestamp: serverTimestamp() as Timestamp,
-            details: 'This is a test log entry.'
-        };
-        await addDoc(collection(db, COLLECTIONS.ACTIVITY_LOGS), testLog);
-        console.log('Test log entry created successfully.');
-        return true;
-    } catch (error) {
-        console.error('Error creating test log entry:', error);
-        return false; 
-    }
 }
   
 // get activity logs with filters
@@ -148,9 +130,8 @@ subscribeToActivityLogs(
     callback: (logs: ActivityLog[]) => void,
     limitCount: number = 50
 ): Unsubscribe {
-    // Implementation here...
     const q = query(
-        collection(db, 'COLLECTIONS.ACTIVITY_LOGS'),
+        collection(db, COLLECTIONS.ACTIVITY_LOGS),
         orderBy('timestamp', 'desc'),
         limit(limitCount)
     );
