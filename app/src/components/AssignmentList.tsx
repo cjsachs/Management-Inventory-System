@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Assignment } from "../types/firebase"
 import { assignmentService } from "../services/firebase/assignmentService";
+import { useAuth } from "../contexts/AuthContext";
 
 interface AssignmentListProps {
   onReturn: (assignment: Assignment) => void;
@@ -12,6 +13,11 @@ const AssignmentList = ({ onReturn, onViewDetails }: AssignmentListProps) => {
   const [ assignments, setAssignments ] = useState<Assignment[]>([]);
   const [ loading, setLoading ] = useState(true);
   const [filter, setFilter] = useState<'all' | 'active' | 'overdue' | 'returned'>('active');
+
+
+  // just for vercel deployment
+  console.log(assignments, loading, filter, onReturn, onViewDetails)
+  setFilter('all')
 
   useEffect(() => {
     if (!user) return;
