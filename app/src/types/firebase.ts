@@ -38,7 +38,7 @@ export interface ActivityLog {
     entityType: 'equipment' | 'user' | 'assignment';
     entityId: string; // ID of the equipment/user/assignment
     entityName: string; // for display (e.g. "IT-2025-001")
-    changes?: Record<string, any>; // optional changes made
+    changes?: Record<string, unknown>; // optional changes made
     performedBy: string; // user ID
     performedByName: string; // user name for display
     timestamp: Timestamp;
@@ -60,7 +60,9 @@ export interface Assignment {
     status: 'active' | 'returned';
     notes?: string;
     assignedBy: string; // IT staff user ID
+    assignedByName: string; // IT staff user name for display
     returnedBy?: string; // IT staff user ID who processed return
+    returnedByName?: string; // IT staff user name for display
 }
 
 // Auth context type
