@@ -1,8 +1,8 @@
-import { Package, Plus } from "lucide-react";
+import { Package, Plus, Users } from "lucide-react";
 
 interface TabNavigationProps {
-    activeTab: 'inventory' | 'add';
-    onTabChange: (tab: 'inventory' | 'add') => void;
+    activeTab: 'inventory' | 'add' | 'assignments';
+    onTabChange: (tab: 'inventory' | 'add' | 'assignments') => void;
 }
 
 const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
@@ -21,6 +21,13 @@ const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
         >
           <Plus size={20}/>
           <span>Add Equipment</span>
+        </button>
+        <button
+        className={`tab ${activeTab === 'assignments' ? 'active' : ''}`}
+        onClick={() => onTabChange('assignments')}
+        >
+          <Users size={20}/>
+          <span>Assignments</span>
         </button>
     </div>
   )

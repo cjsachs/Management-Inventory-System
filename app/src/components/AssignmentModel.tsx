@@ -1,6 +1,8 @@
 import { useState } from "react";
 import type { Equipment } from "../types/equipment"
-import { Calendar, Package, User, X } from "lucide-react";
+import { Package, User, X } from "lucide-react";
+import { Timestamp } from "firebase/firestore";
+import { assignmentService } from "../services/firebase/assignmentService";
 
 interface AssignmentModelProps {
   equipment: Equipment;
@@ -25,9 +27,6 @@ const AssignmentModel = ({ equipment, onAssign, onClose }: AssignmentModelProps)
   });
   const [errors, setErrors] = useState<Partial<typeof formData>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const departments = ['IT','HR', 'Engineering', 'Sales', 'Marketing', 'Finance', 'Operations', 'Administration'];
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
@@ -41,17 +40,63 @@ const AssignmentModel = ({ equipment, onAssign, onClose }: AssignmentModelProps)
     if (!formData.userName.trim()) newErrors.userName = 'User Name is required';
     if (!formData.employeeId.trim()) newErrors.employeeId = 'Employee ID is required';
     if (!formData.department.trim()) newErrors.department = 'Department is required';
-    
-    if (formData.expectedReturnDate) {
-      const returnDate = new Date(formData.expectedReturnDate);
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      if (returnDate < today) {
-        newErrors.expectedReturnDate = 'Expected Return Date must be today or in the future';
+    // Validate expected return date if provided
+      if (formData.expectedReturnDate) {
+        const returnDate = new Date(formData.expectedReturnDate);
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        if (returnDate < today) {
+          newErrors.expectedReturnDate = 'Return date must be in the future';
+        }
       }
-    }
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
+  }
+
+  const handleAssignEquipment = async (assignmentData: {
+  userId: string;
+  userName: string;
+  employeeId: string;
+  department: string;
+  expectedReturnDate?: Date;
+  notes?: string;
+}): Promise<boolean> => {
+  if (!user || !equipment) return false;
+
+  try {
+    // Build the assignment object, excluding undefined fields
+    const assignmentToCreate: any = {
+      equipmentId: equipment.id.toString(),
+      equipmentAssetTag: equipment.assetTag,
+      userId: assignmentData.userId,
+      userName: assignmentData.userName,
+      employeeId: assignmentData.employeeId,
+      department: assignmentData.department,
+      assignedDate: Timestamp.now(),
+      status: 'active',
+      assignedBy: user.id!,
+      assignedByName: user.name,
+    };
+
+    // Only add optional fields if they have values
+    if (assignmentData.expectedReturnDate) {
+      assignmentToCreate.expectedReturnDate = Timestamp.fromDate(assignmentData.expectedReturnDate);
+    }
+    if (assignmentData.notes) {
+      assignmentToCreate.notes = assignmentData.notes;
+    }
+
+    // Create the assignment in Firebase
+    await assignmentService.createAssignment(
+      assignmentToCreate
+    );
+
+  } catch (error) {
+    console.error("Error creating assignment:", error);
+      return false;
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -64,8 +109,10 @@ const AssignmentModel = ({ equipment, onAssign, onClose }: AssignmentModelProps)
         userName: formData.userName,
         employeeId: formData.employeeId,
         department: formData.department,
-        expectedReturnDate: formData.expectedReturnDate ? new Date(formData.expectedReturnDate) : undefined,
-        notes: formData.notes
+        expectedReturnDate: formData.expectedReturnDate
+          ? new Date(formData.expectedReturnDate)
+          : undefined,
+        notes: formData.notes || undefined
       };
       const success = await onAssign(assignmentData);
       if (success) {
@@ -83,9 +130,6 @@ const AssignmentModel = ({ equipment, onAssign, onClose }: AssignmentModelProps)
       onClose();
     }
   };
-
-  // set min date to today for the date picker
-  const today = new Date().toISOString().split('T')[0];
 
   return (
     <div className="modal-backdrop" onClick={handleBackdropClick}>
@@ -135,6 +179,24 @@ const AssignmentModel = ({ equipment, onAssign, onClose }: AssignmentModelProps)
               
               <div className="form-grid">
                 <div className="form-group">
+                  <label htmlFor="userName" className="required">
+                    Employee Name
+                  </label>
+                  <input
+                    type="text"
+                    id="userName"
+                    name="userName"
+                    value={formData.userName}
+                    onChange={handleChange}
+                    placeholder="Tom Dugan"
+                    className={errors.userName ? 'error' : ''}
+                    disabled={isSubmitting}
+                  />
+                  {errors.userName && (
+                    <span className="error-message">{errors.userName}</span>
+                  )}
+                </div>
+                <div className="form-group">
                   <label htmlFor="employeeId" className="required">
                     Employee ID
                   </label>
@@ -154,59 +216,30 @@ const AssignmentModel = ({ equipment, onAssign, onClose }: AssignmentModelProps)
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="department" className="required">
-                    Department
-                  </label>
-                  <select
-                    id="department"
-                    name="department"
-                    value={formData.department}
-                    onChange={handleChange}
-                    className={errors.department ? 'error' : ''}
-                    disabled={isSubmitting}
-                  >
-                    <option value="">Select department...</option>
-                    {departments.map(dept => (
-                      <option key={dept} value={dept}>{dept}</option>
-                    ))}
-                  </select>
-                  {errors.department && (
-                    <span className="error-message">{errors.department}</span>
-                  )}
-                </div>
-
+              <label htmlFor="department">Job Title:</label>
+              <input
+                type="text"
+                id="department"
+                name="department"
+                value={formData.department}
+                onChange={handleChange}
+                placeholder="IT Specialist"
+                className={errors.department ? 'error' : ''}
+                disabled={isSubmitting}
+              />
+            </div>
                 <div className="form-group">
-                  <label htmlFor="expectedReturnDate">
-                    <Calendar size={18} />
-                    Expected Return Date
-                  </label>
-                  <input
-                    type="date"
-                    id="expectedReturnDate"
-                    name="expectedReturnDate"
-                    value={formData.expectedReturnDate}
+                  <label htmlFor="notes">Notes</label>
+                  <textarea
+                    id="notes"
+                    name="notes"
+                    value={formData.notes}
                     onChange={handleChange}
-                    min={today}
-                    className={errors.expectedReturnDate ? 'error' : ''}
+                    placeholder="Any additional notes about this assignment..."
+                    rows={3}
                     disabled={isSubmitting}
                   />
-                  {errors.expectedReturnDate && (
-                    <span className="error-message">{errors.expectedReturnDate}</span>
-                  )}
                 </div>
-              </div>
-
-              <div className="form-group">
-                <label htmlFor="notes">Notes</label>
-                <textarea
-                  id="notes"
-                  name="notes"
-                  value={formData.notes}
-                  onChange={handleChange}
-                  placeholder="Any additional notes about this assignment..."
-                  rows={3}
-                  disabled={isSubmitting}
-                />
               </div>
             </div>
           </div>

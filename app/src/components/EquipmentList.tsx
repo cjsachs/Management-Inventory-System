@@ -1,52 +1,75 @@
-import { Edit, Keyboard, Laptop, Monitor, Mouse, Package, Smartphone, Tablet, Trash2 } from "lucide-react";
-import type { Equipment, EquipmentStatus, EquipmentType } from "../types/equipment";
+import {
+  Edit,
+  Keyboard,
+  Laptop,
+  Monitor,
+  Mouse,
+  Package,
+  Smartphone,
+  Tablet,
+  Trash2,
+  UserPlus,
+} from 'lucide-react';
+import type {
+  Equipment,
+  EquipmentStatus,
+  EquipmentType,
+} from '../types/equipment';
 
 interface EquipmentListProps {
   equipment: Equipment[];
   onEdit: (equipment: Equipment) => void;
   onDelete: (equipment: Equipment) => void;
+  onAssign?: (equipment: Equipment) => void;
 }
 
-const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
-
+const EquipmentList = ({
+  equipment,
+  onEdit,
+  onDelete,
+  onAssign,
+}: EquipmentListProps) => {
   // helper to get respective icon for equipment type
   const getEquipmentIcon = (type: EquipmentType) => {
-    const iconMap: Record<EquipmentType, React.ComponentType<{ size?: number }>> = {
-      'Laptop': Laptop,
-      'Desktop': Monitor,
-      'Tablet': Tablet,
-      'Phone': Smartphone,
-      'Keyboard': Keyboard,
-      'Mouse': Mouse
+    const iconMap: Record<
+      EquipmentType,
+      React.ComponentType<{ size?: number }>
+    > = {
+      Laptop: Laptop,
+      Desktop: Monitor,
+      Tablet: Tablet,
+      Phone: Smartphone,
+      Keyboard: Keyboard,
+      Mouse: Mouse,
     };
 
     const IconComponent = iconMap[type] ?? Package; // Default to Package if type not found
     return <IconComponent size={18} />;
-  }
+  };
 
   // helper to get status badge styling
   const getStatusBadgeClass = (status: EquipmentStatus): string => {
     const statusClasses: Record<EquipmentStatus, string> = {
-      'available': 'status-badge status-available',
-      'assigned': 'status-badge status-assigned',
-      'maintenance': 'status-badge status-maintenance',
-      'retired': 'status-badge status-retired'
-    }
+      available: 'status-badge status-available',
+      assigned: 'status-badge status-assigned',
+      maintenance: 'status-badge status-maintenance',
+      retired: 'status-badge status-retired',
+    };
     return statusClasses[status] || 'status-badge status-unknown';
-  }
+  };
 
   // Function to format currency
   const formatCurrency = (amount: number): string => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
-      currency: 'USD'
+      currency: 'USD',
     }).format(amount);
-  }
+  };
 
   // function to capitalize the first letter of each status
   const formatStatus = (status: EquipmentStatus): string => {
     return status.charAt(0).toUpperCase() + status.slice(1);
-  }
+  };
 
   return (
     <div className="equipment-list-container">
@@ -80,7 +103,9 @@ const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
                   <td>
                     <div className="brand-model">
                       <span className="brand">{item.brand}</span>
-                      {item.model && <span className="model">{item.model}</span>}
+                      {item.model && (
+                        <span className="model">{item.model}</span>
+                      )}
                     </div>
                   </td>
                   <td>{item.processor || '-'}</td>
@@ -103,9 +128,20 @@ const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
                     )}
                   </td>
                   <td>{item.location || '-'}</td>
-                  <td className="currency">{formatCurrency(item.purchaseCost)}</td>
+                  <td className="currency">
+                    {formatCurrency(item.purchaseCost)}
+                  </td>
                   <td>
                     <div className="table-actions">
+                      {item.status === 'available' && onAssign && (
+                        <button
+                          onClick={() => onAssign(item)}
+                          className="action-btn action-btn-assign"
+                          title="Assign equipment"
+                        >
+                          <UserPlus size={16} />
+                        </button>
+                      )}
                       <button
                         onClick={() => onEdit(item)}
                         className="action-btn action-btn-edit"
@@ -136,15 +172,14 @@ const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
           </tbody>
         </table>
       </div>
-      
+
       {/* Summary footer */}
       {equipment.length > 0 && (
         <div className="table-footer">
-          <div className="summary-info">
-            Showing {equipment.length} items
-          </div>
+          <div className="summary-info">Showing {equipment.length} items</div>
           <div className="total-value">
-            Total Value: {formatCurrency(
+            Total Value:{' '}
+            {formatCurrency(
               equipment.reduce((sum, item) => sum + item.purchaseCost, 0)
             )}
           </div>
@@ -152,6 +187,6 @@ const EquipmentList = ({ equipment, onEdit, onDelete }: EquipmentListProps) => {
       )}
     </div>
   );
-}
+};
 
-export default EquipmentList
+export default EquipmentList;

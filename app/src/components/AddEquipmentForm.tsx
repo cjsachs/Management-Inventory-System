@@ -344,14 +344,14 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="department">Department</label>
+              <label htmlFor="department">Job Title:</label>
               <input
                 type="text"
                 id="department"
                 name="department"
                 value={formData.department}
                 onChange={handleChange}
-                placeholder="Engineering, Sales, etc."
+                placeholder="IT Specialist"
                 disabled={formData.status !== 'assigned'}
               />
             </div>

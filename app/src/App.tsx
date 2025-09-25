@@ -19,12 +19,19 @@ import { Loader } from 'lucide-react';
 import { useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
 import { activityLogService } from './services/firebase/activityLogService';
+import AssignmentList from './components/AssignmentList';
+import type { Assignment } from './types/firebase';
+import { Timestamp } from 'firebase/firestore';
+import { assignmentService } from './services/firebase/assignmentService';
+import AssignmentModel from './components/AssignmentModel';
 
 const App = () => {
   const { user, loading: authLoading, logout } = useAuth();
   const [equipment, setEquipment] = useState<Equipment[]>([]);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
-  const [activeTab, setActiveTab] = useState<'inventory' | 'add'>('inventory');
+  const [activeTab, setActiveTab] = useState<
+    'inventory' | 'add' | 'assignments'
+  >('inventory');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<EquipmentStatus | 'all'>(
     'all'
@@ -44,6 +51,8 @@ const App = () => {
     message: '',
     type: 'success',
   });
+  const [assigningEquipment, setAssigningEquipment] =
+    useState<Equipment | null>(null);
 
   // subscribe to equipment changes when user is authenticated
   useEffect(() => {
@@ -135,10 +144,7 @@ const App = () => {
       }
 
       // add equipment to Firebase
-      await equipmentService.addEquipment(
-        newEquipment,
-        user.id!
-      );
+      await equipmentService.addEquipment(newEquipment, user.id!);
 
       // log activity
       await activityLogService.logEquipmentAction(
@@ -224,6 +230,68 @@ const App = () => {
     }
   };
 
+  // Add the handler for creating assignments
+  const handleAssignEquipment = async (assignmentData: {
+    userId: string;
+    userName: string;
+    employeeId: string;
+    department: string;
+    expectedReturnDate?: Date;
+    notes?: string;
+  }): Promise<boolean> => {
+    if (!user || !assigningEquipment) return false;
+
+    try {
+      // Create the assignment in Firebase
+      await assignmentService.createAssignment({
+        equipmentId: assigningEquipment.id.toString(),
+        equipmentAssetTag: assigningEquipment.assetTag,
+        userId: assignmentData.userId,
+        userName: assignmentData.userName,
+        employeeId: assignmentData.employeeId,
+        department: assignmentData.department,
+        assignedDate: Timestamp.now(),
+        expectedReturnDate: assignmentData.expectedReturnDate
+          ? Timestamp.fromDate(assignmentData.expectedReturnDate)
+          : undefined,
+        status: 'active',
+        notes: assignmentData.notes,
+        assignedBy: user.id!,
+        assignedByName: user.name,
+      });
+
+      // Update equipment status to assigned
+      await equipmentService.updateEquipment(
+        assigningEquipment.id.toString(),
+        {
+          status: 'assigned',
+          assignedTo: assignmentData.userName,
+          employeeId: assignmentData.employeeId,
+          department: assignmentData.department,
+        },
+        user.id!
+      );
+
+      // Log the activity
+      await activityLogService.logEquipmentAction(
+        'assigned',
+        assigningEquipment,
+        user.id!,
+        user.name,
+        undefined,
+        `Assigned to ${assignmentData.userName} (${assignmentData.employeeId})`
+      );
+
+      showNotification('Equipment assigned successfully!', 'success');
+      setAssigningEquipment(null);
+      return true;
+    } catch (error: any) {
+      console.error('Error assigning equipment:', error);
+      showNotification(error.message || 'Failed to assign equipment', 'error');
+      return false;
+    }
+  };
+
   // Handle deleting equipment
   const handleDeleteEquipment = async (equipmentToDelete: Equipment) => {
     if (!user) return;
@@ -259,6 +327,18 @@ const App = () => {
       console.error('Error deleting equipment:', error);
       showNotification(error.message || 'Failed to delete equipment', 'error');
     }
+  };
+
+  const handleReturnAssignment = (assignment: Assignment) => {
+    // Handle returning equipment
+    console.log('Returning assignment:', assignment);
+    // implement the actual return logic here
+  };
+
+  const handleViewAssignmentDetails = (assignment: Assignment) => {
+    // Handle viewing assignment details
+    console.log('Viewing assignment:', assignment);
+    // open a modal or navigate to details view
   };
 
   // handle clearing filters
@@ -351,9 +431,10 @@ const App = () => {
                 equipment={filteredEquipment}
                 onEdit={setEditingEquipment}
                 onDelete={setDeletingEquipment}
+                onAssign={setAssigningEquipment}
               />
             </>
-          ) : (
+          ) : activeTab === 'add' ? (
             <>
               <div className="content-header">
                 <h2>Add New Equipment</h2>
@@ -363,8 +444,29 @@ const App = () => {
               </div>
               <AddEquipmentForm onSubmit={handleAddEquipment} />
             </>
-          )}
+          ) : activeTab === 'assignments' ? (
+            <>
+              <div className="content-header">
+                <h2>Equipment Assignments</h2>
+                <p className="subtitle">
+                  Manage equipment assignments and returns
+                </p>
+              </div>
+              <AssignmentList
+                onReturn={handleReturnAssignment}
+                onViewDetails={handleViewAssignmentDetails}
+              />
+            </>
+          ) : null}
         </div>
+
+        {assigningEquipment && (
+          <AssignmentModel
+            equipment={assigningEquipment}
+            onAssign={handleAssignEquipment}
+            onClose={() => setAssigningEquipment(null)}
+          />
+        )}
 
         {/* Edit Modal */}
         {editingEquipment && (
