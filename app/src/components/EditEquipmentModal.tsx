@@ -1,87 +1,119 @@
-import { useState } from "react";
-import type { Equipment, EquipmentStatus, EquipmentType } from "../types/equipment";
-import { Save, X } from "lucide-react";
+import { useState } from 'react';
+import type {
+  Equipment,
+  EquipmentStatus,
+  EquipmentType,
+} from '../types/equipment';
+import { Save, X } from 'lucide-react';
 
 interface EditEquipmentModalProps {
-    equipment: Equipment;
-    onSave: (equipment: Equipment) => Promise<boolean>;
-    onClose: () => void;
+  equipment: Equipment;
+  onSave: (equipment: Equipment) => Promise<boolean>;
+  onClose: () => void;
 }
 
-const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalProps) => {
-    const [formData, setFormData] = useState<Equipment>(equipment);
-    const [errors, setErrors] = useState<Partial<Record<keyof Equipment, string>>>({});
-    const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
+const EditEquipmentModal = ({
+  equipment,
+  onSave,
+  onClose,
+}: EditEquipmentModalProps) => {
+  const [formData, setFormData] = useState<Equipment>(equipment);
+  const [errors, setErrors] = useState<
+    Partial<Record<keyof Equipment, string>>
+  >({});
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-    const equipmentTypes: EquipmentType[] = ['Laptop', 'Desktop', 'Tablet', 'Keyboard', 'Mouse', 'Phone'];
+  const equipmentTypes: EquipmentType[] = [
+    'Laptop',
+    'Desktop',
+    'Tablet',
+    'Keyboard',
+    'Mouse',
+    'Phone',
+  ];
 
-    const statusOptions: EquipmentStatus[] = ['available', 'assigned', 'maintenance', 'retired'];
+  const statusOptions: EquipmentStatus[] = [
+    'available',
+    'assigned',
+    'maintenance',
+    'retired',
+  ];
 
-    const handleChange = (
-        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-    ) => {
-        const { name, value } = e.target;
-    
-        if (errors[name as keyof Equipment]) {
-            setErrors((prev) => ({ ...prev, [name]: '' }));
-        }
-    
-        if (name === 'purchaseCost') {
-            setFormData((prev) => ({ ...prev, [name]: parseFloat(value) || 0 }));
-        } else {
-            setFormData((prev) => ({ ...prev, [name]: value }));
-        }
-    };
+  const handleChange = (
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+    >
+  ) => {
+    const { name, value } = e.target;
 
-    const validateForm = () => {
-        const newErrors: Partial<Record<keyof Equipment, string>> = {};
-        if (!formData.assetTag.trim()) {
-            newErrors.assetTag = 'Asset Tag is required'
-        };
-        if (!formData.serialNumber.trim()) {
-            newErrors.serialNumber = 'Serial Number is required'
-        };
-        if (!formData.brand.trim()) {
-            newErrors.brand = 'Brand is required'
-        };
+    if (errors[name as keyof Equipment]) {
+      setErrors((prev) => ({ ...prev, [name]: '' }));
+    }
+
+    // Special handling for status changes
+    if (name === 'status' && value === 'available') {
+      // Clear assignment fields when changing to available
+      setFormData((prev) => ({
+        ...prev,
+        status: value as EquipmentStatus,
+        assignedTo: '',
+        employeeId: '',
+        department: '',
+      }));
+    } else if (name === 'purchaseCost') {
+      setFormData((prev) => ({ ...prev, [name]: parseFloat(value) || 0 }));
+    } else {
+      setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors: Partial<Record<keyof Equipment, string>> = {};
+    if (!formData.assetTag.trim()) {
+      newErrors.assetTag = 'Asset Tag is required';
+    }
+    if (!formData.serialNumber.trim()) {
+      newErrors.serialNumber = 'Serial Number is required';
+    }
+    if (!formData.brand.trim()) {
+      newErrors.brand = 'Brand is required';
+    }
 
     // asset tag format validation (ex: IT-YYYY-XXX)
     const assetTagPattern = /^IT-\d{4}-\w{3}$/;
     if (formData.assetTag && !assetTagPattern.test(formData.assetTag)) {
       newErrors.assetTag =
         'Asset Tag format should be XX-YYYY-### (ex: IT-2025-001)';
-    } 
+    }
 
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-    };
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        
-        if(!validateForm()){
-            return;
-        }
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-        setIsSubmitting(true);
-        await new Promise((resolve) => setTimeout(resolve, 500)); // simulate delay
-        
-        const success = await onSave(formData);
+    if (!validateForm()) {
+      return;
+    }
 
-        if (success) {
-            onClose();
-        }
+    setIsSubmitting(true);
+    await new Promise((resolve) => setTimeout(resolve, 500)); // simulate delay
 
-        setIsSubmitting(false);
-    };
+    const success = await onSave(formData);
 
-    const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
-        if (e.target === e.currentTarget) {
-            onClose();
-        }
-    };
+    if (success) {
+      onClose();
+    }
 
+    setIsSubmitting(false);
+  };
 
+  const handleBackdropClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
 
   return (
     <div className="modal-backdrop" onClick={handleBackdropClick}>
@@ -97,7 +129,7 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
           <div className="modal-body">
             <div className="form-section">
               <h3 className="form-section-title">Basic Information</h3>
-              
+
               <div className="form-grid">
                 <div className="form-group">
                   <label htmlFor="edit-assetTag" className="required">
@@ -117,17 +149,17 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="edit-type">
-                    Equipment Type
-                  </label>
+                  <label htmlFor="edit-type">Equipment Type</label>
                   <select
                     id="edit-type"
                     name="type"
                     value={formData.type}
                     onChange={handleChange}
                   >
-                    {equipmentTypes.map(type => (
-                      <option key={type} value={type}>{type}</option>
+                    {equipmentTypes.map((type) => (
+                      <option key={type} value={type}>
+                        {type}
+                      </option>
                     ))}
                   </select>
                 </div>
@@ -150,9 +182,7 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="edit-model">
-                    Model
-                  </label>
+                  <label htmlFor="edit-model">Model</label>
                   <input
                     type="text"
                     id="edit-model"
@@ -193,16 +223,14 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="edit-status">
-                    Status
-                  </label>
+                  <label htmlFor="edit-status">Status</label>
                   <select
                     id="edit-status"
                     name="status"
                     value={formData.status}
                     onChange={handleChange}
                   >
-                    {statusOptions.map(status => (
+                    {statusOptions.map((status) => (
                       <option key={status} value={status}>
                         {status.charAt(0).toUpperCase() + status.slice(1)}
                       </option>
@@ -211,9 +239,7 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="edit-location">
-                    Location
-                  </label>
+                  <label htmlFor="edit-location">Location</label>
                   <input
                     type="text"
                     id="edit-location"
@@ -224,9 +250,7 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="edit-purchaseCost">
-                    Purchase Cost ($)
-                  </label>
+                  <label htmlFor="edit-purchaseCost">Purchase Cost ($)</label>
                   <input
                     type="number"
                     id="edit-purchaseCost"
@@ -247,12 +271,10 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
             {formData.status === 'assigned' && (
               <div className="form-section">
                 <h3 className="form-section-title">Assignment Information</h3>
-                
+
                 <div className="form-grid">
                   <div className="form-group">
-                    <label htmlFor="edit-assignedTo">
-                      Assigned To
-                    </label>
+                    <label htmlFor="edit-assignedTo">Assigned To</label>
                     <input
                       type="text"
                       id="edit-assignedTo"
@@ -263,9 +285,7 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="edit-employeeId">
-                      Employee ID
-                    </label>
+                    <label htmlFor="edit-employeeId">Employee ID</label>
                     <input
                       type="text"
                       id="edit-employeeId"
@@ -276,9 +296,7 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="edit-department">
-                      Department
-                    </label>
+                    <label htmlFor="edit-department">Department</label>
                     <input
                       type="text"
                       id="edit-department"
@@ -293,9 +311,7 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
 
             <div className="form-section">
               <div className="form-group">
-                <label htmlFor="edit-notes">
-                  Notes
-                </label>
+                <label htmlFor="edit-notes">Notes</label>
                 <textarea
                   id="edit-notes"
                   name="notes"
@@ -338,6 +354,6 @@ const EditEquipmentModal = ({ equipment, onSave, onClose }: EditEquipmentModalPr
       </div>
     </div>
   );
-}
+};
 
-export default EditEquipmentModal
+export default EditEquipmentModal;
