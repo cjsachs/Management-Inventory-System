@@ -2,7 +2,8 @@ export type EquipmentStatus =
   | 'available'
   | 'assigned'
   | 'maintenance'
-  | 'retired';
+  | 'retired'
+  | 'sold';
 
 export type EquipmentType =
   | 'Laptop'
@@ -38,6 +39,8 @@ export interface EquipmentStats {
     available: number;
     assigned: number;
     maintenance: number;
+    retired: number;
+    sold: number;
 }
 
 export type NotificationType = 'success' | 'error' | 'info' | 'warning';

@@ -134,6 +134,14 @@ background: linear-gradient(to top, #D7DDE8, #243b55); /* W3C, IE 10+/ Edge, Fir
   background: rgba(251, 146, 60, 0.3);
 }
 
+.stat-icon-container.red {
+  background: rgba(245, 101, 101, 0.3);
+}
+
+.stat-icon-container.teal {
+  background: rgba(49, 151, 149, 0.3);
+}
+
 .stat-details {
   flex: 1;
 }
@@ -424,6 +432,11 @@ background: #141e30; /* fallback for old browsers */
 .status-retired {
   background: #fed7d7;
   color: #742a2a;
+}
+
+.status-sold {
+  background: #e6fffa;
+  color: #234e52;
 }
 
 /* Assigned Info */
@@ -835,6 +848,10 @@ background: #141e30; /* fallback for old browsers */
 
 .filter-btn-retired.active {
   background: #f56565;
+}
+
+.filter-btn-sold.active {
+  background: #319795;
 }
 
 /* Filter Info Bar */

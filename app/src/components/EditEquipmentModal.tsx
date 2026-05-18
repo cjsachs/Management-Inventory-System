@@ -37,6 +37,7 @@ const EditEquipmentModal = ({
     'assigned',
     'maintenance',
     'retired',
+    'sold',
   ];
 
   const handleChange = (
@@ -51,8 +52,8 @@ const EditEquipmentModal = ({
     }
 
     // Special handling for status changes
-    if (name === 'status' && value === 'available') {
-      // Clear assignment fields when changing to available
+    if (name === 'status' && (value === 'available' || value === 'retired' || value === 'sold')) {
+      // Clear assignment fields when status is no longer assigned
       setFormData((prev) => ({
         ...prev,
         status: value as EquipmentStatus,

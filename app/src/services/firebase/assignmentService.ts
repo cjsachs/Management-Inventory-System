@@ -74,6 +74,7 @@ class AssignmentService {
       const assignmentRef = doc(db, this.collectionName, assignmentId);
       await updateDoc(assignmentRef, {
         status: 'returned',
+        actualReturnDate: Timestamp.now(),
         returnedBy,
         returnedByName,
         notes: notes || '',

@@ -54,6 +54,7 @@ const EquipmentList = ({
       assigned: 'status-badge status-assigned',
       maintenance: 'status-badge status-maintenance',
       retired: 'status-badge status-retired',
+      sold: 'status-badge status-sold',
     };
     return statusClasses[status] || 'status-badge status-unknown';
   };
@@ -91,8 +92,8 @@ const EquipmentList = ({
           </thead>
           <tbody>
             {equipment.length > 0 ? (
-              equipment.map((item, idx) => (
-                <tr key={idx}>
+              equipment.map((item) => (
+                <tr key={item.id}>
                   <td>
                     <div className="asset-tag">
                       {getEquipmentIcon(item.type)}

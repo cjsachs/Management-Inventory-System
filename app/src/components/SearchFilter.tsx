@@ -17,7 +17,8 @@ const SearchFilter = ({ searchTerm, onSearchChange, statusFilter, onStatusFilter
         { value: 'available', label: 'Available', color: 'available' },
         { value: 'assigned', label: 'Assigned', color: 'assigned' },
         { value: 'maintenance', label: 'Maintenance', color: 'maintenance' },
-        { value: 'retired', label: 'Retired', color: 'retired' }
+        { value: 'retired', label: 'Retired', color: 'retired' },
+        { value: 'sold', label: 'Sold', color: 'sold' },
     ];
 
     const hasActiveFilters = searchTerm !== '' || statusFilter !== 'all';

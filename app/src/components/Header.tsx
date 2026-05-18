@@ -1,4 +1,4 @@
-import { Package, CheckCircle, AlertCircle, ToolCaseIcon, LogOut, User } from 'lucide-react';
+import { Package, CheckCircle, AlertCircle, ToolCaseIcon, LogOut, User, Archive, DollarSign } from 'lucide-react';
 import type { EquipmentStats } from '../types/equipment';
 import type { ITStaffUser } from '../types/firebase';
 
@@ -75,6 +75,26 @@ const Header = ({ stats, user, onLogout }: HeaderProps) => {
             <div className="stat-details">
               <div className="stat-value">{stats.maintenance}</div>
               <div className="stat-label">Maintenance</div>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon-container red">
+              <Archive size={24} />
+            </div>
+            <div className="stat-details">
+              <div className="stat-value">{stats.retired}</div>
+              <div className="stat-label">Retired</div>
+            </div>
+          </div>
+
+          <div className="stat-card">
+            <div className="stat-icon-container teal">
+              <DollarSign size={24} />
+            </div>
+            <div className="stat-details">
+              <div className="stat-value">{stats.sold}</div>
+              <div className="stat-label">Sold</div>
             </div>
           </div>
         </div>

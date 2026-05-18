@@ -70,6 +70,7 @@ const AddEquipmentForm = ({ onSubmit }: AddEquipmentFormProps) => {
     'assigned',
     'maintenance',
     'retired',
+    'sold',
   ];
 
   // handle input changes

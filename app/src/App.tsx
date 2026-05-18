@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import './App.css';
 import type {
   Equipment,
@@ -53,6 +53,7 @@ const App = () => {
   });
   const [assigningEquipment, setAssigningEquipment] =
     useState<Equipment | null>(null);
+  const notificationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // subscribe to equipment changes when user is authenticated
   useEffect(() => {
@@ -86,12 +87,11 @@ const App = () => {
   const calculateStats = (equipmentList: Equipment[]): EquipmentStats => {
     return {
       total: equipmentList.length,
-      available: equipmentList.filter((item) => item.status === 'available')
-        .length,
-      assigned: equipmentList.filter((item) => item.status === 'assigned')
-        .length,
-      maintenance: equipmentList.filter((item) => item.status === 'maintenance')
-        .length,
+      available: equipmentList.filter((item) => item.status === 'available').length,
+      assigned: equipmentList.filter((item) => item.status === 'assigned').length,
+      maintenance: equipmentList.filter((item) => item.status === 'maintenance').length,
+      retired: equipmentList.filter((item) => item.status === 'retired').length,
+      sold: equipmentList.filter((item) => item.status === 'sold').length,
     };
   };
 
@@ -329,16 +329,40 @@ const App = () => {
     }
   };
 
-  const handleReturnAssignment = (assignment: Assignment) => {
-    // Handle returning equipment
-    console.log('Returning assignment:', assignment);
-    // implement the actual return logic here
+  const handleReturnAssignment = async (assignment: Assignment) => {
+    if (!user) return;
+
+    try {
+      await assignmentService.returnAssignment(
+        assignment.id!,
+        user.id!,
+        user.name
+      );
+
+      await equipmentService.updateEquipment(
+        assignment.equipmentId,
+        { status: 'available', assignedTo: '', employeeId: '', department: '' },
+        user.id!
+      );
+
+      await activityLogService.logEquipmentAction(
+        'returned',
+        equipment.find((e) => e.id?.toString() === assignment.equipmentId) ?? { assetTag: assignment.equipmentAssetTag } as any,
+        user.id!,
+        user.name,
+        undefined,
+        `Equipment returned by ${assignment.userName}`
+      );
+
+      showNotification(`${assignment.equipmentAssetTag} marked as returned`, 'success');
+    } catch (error: any) {
+      console.error('Error returning assignment:', error);
+      showNotification(error.message || 'Failed to return equipment', 'error');
+    }
   };
 
-  const handleViewAssignmentDetails = (assignment: Assignment) => {
-    // Handle viewing assignment details
-    console.log('Viewing assignment:', assignment);
-    // open a modal or navigate to details view
+  const handleViewAssignmentDetails = (_assignment: Assignment) => {
+    // placeholder — detail view not yet implemented
   };
 
   // handle clearing filters
@@ -349,17 +373,20 @@ const App = () => {
 
   // show notification helper
   const showNotification = (message: string, type: NotificationType) => {
-    setNotification({
-      show: true,
-      message,
-      type,
-    });
+    setNotification({ show: true, message, type });
   };
 
-  // auto-hide notification after 3s
-  setTimeout(() => {
-    setNotification((prev) => ({ ...prev, show: false }));
-  }, 3000);
+  // auto-hide notification after 3s, cleared on each new notification
+  useEffect(() => {
+    if (!notification.show) return;
+    if (notificationTimerRef.current) clearTimeout(notificationTimerRef.current);
+    notificationTimerRef.current = setTimeout(() => {
+      setNotification((prev) => ({ ...prev, show: false }));
+    }, 3000);
+    return () => {
+      if (notificationTimerRef.current) clearTimeout(notificationTimerRef.current);
+    };
+  }, [notification.show, notification.message]);
 
   // Handle logout
   const handleLogout = async () => {
