@@ -18,9 +18,7 @@ class AssignmentService {
 
   // create a new assignment
   async createAssignment(
-    assignment: Omit<Assignment, 'id'>,
-    performedBy: string,
-    performedByName: string
+    assignment: Omit<Assignment, 'id'>
   ): Promise<string> {
     try {
       // Build the document data, excluding undefined fields

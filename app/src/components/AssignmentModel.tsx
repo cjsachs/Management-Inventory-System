@@ -1,8 +1,6 @@
 import { useState } from "react";
 import type { Equipment } from "../types/equipment"
 import { Package, User, X } from "lucide-react";
-import { Timestamp } from "firebase/firestore";
-import { assignmentService } from "../services/firebase/assignmentService";
 
 interface AssignmentModelProps {
   equipment: Equipment;
@@ -53,50 +51,6 @@ const AssignmentModel = ({ equipment, onAssign, onClose }: AssignmentModelProps)
     
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  }
-
-  const handleAssignEquipment = async (assignmentData: {
-  userId: string;
-  userName: string;
-  employeeId: string;
-  department: string;
-  expectedReturnDate?: Date;
-  notes?: string;
-}): Promise<boolean> => {
-  if (!user || !equipment) return false;
-
-  try {
-    // Build the assignment object, excluding undefined fields
-    const assignmentToCreate: any = {
-      equipmentId: equipment.id.toString(),
-      equipmentAssetTag: equipment.assetTag,
-      userId: assignmentData.userId,
-      userName: assignmentData.userName,
-      employeeId: assignmentData.employeeId,
-      department: assignmentData.department,
-      assignedDate: Timestamp.now(),
-      status: 'active',
-      assignedBy: user.id!,
-      assignedByName: user.name,
-    };
-
-    // Only add optional fields if they have values
-    if (assignmentData.expectedReturnDate) {
-      assignmentToCreate.expectedReturnDate = Timestamp.fromDate(assignmentData.expectedReturnDate);
-    }
-    if (assignmentData.notes) {
-      assignmentToCreate.notes = assignmentData.notes;
-    }
-
-    // Create the assignment in Firebase
-    await assignmentService.createAssignment(
-      assignmentToCreate
-    );
-
-  } catch (error) {
-    console.error("Error creating assignment:", error);
-      return false;
-    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
