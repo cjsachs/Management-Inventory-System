@@ -917,6 +917,7 @@ background: #141e30; /* fallback for old browsers */
 .header-actions {
   display: flex;
   gap: 12px;
+  margin-bottom: 10px;
 }
 
 /* Table Actions Column */

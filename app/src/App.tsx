@@ -506,21 +506,6 @@ const App = () => {
                   <h2>Equipment Inventory</h2>
                   <p className="subtitle">Manage and track all IT equipment</p>
                 </div>
-                <div className="header-actions">
-                  <button
-                    className="btn btn-import"
-                    onClick={() => setShowBulkImport(true)}
-                  >
-                    <Upload size={18} />
-                    Bulk Import
-                  </button>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => setActiveTab('add')}
-                  >
-                    Add Equipment
-                  </button>
-                </div>
               </div>
 
               <div className="header-actions">
