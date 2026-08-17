@@ -84,7 +84,7 @@ const EquipmentList = ({
               <th>Processor</th>
               <th>Serial Number</th>
               <th>Status</th>
-              <th>Assigned To</th>
+              <th>Assigned / Sold To</th>
               <th>Location</th>
               <th>Value</th>
               <th>Actions</th>
@@ -119,6 +119,9 @@ const EquipmentList = ({
                   <td>
                     {item.assignedTo ? (
                       <div className="assigned-info">
+                        {item.status === 'sold' && (
+                          <span className="sold-to-label">Sold to</span>
+                        )}
                         <span className="employee-name">{item.assignedTo}</span>
                         {item.department && (
                           <span className="department">{item.department}</span>

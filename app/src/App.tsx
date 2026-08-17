@@ -15,7 +15,7 @@ import SearchFilter from './components/SearchFilter';
 import EditEquipmentModal from './components/EditEquipmentModal';
 import DeleteConfirmModal from './components/DeleteConfirmModal';
 import { equipmentService } from './services/firebase/equipmentService';
-import { Loader } from 'lucide-react';
+import { Loader, Upload, Download } from 'lucide-react';
 import { useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
 import { activityLogService } from './services/firebase/activityLogService';
@@ -24,6 +24,9 @@ import type { Assignment } from './types/firebase';
 import { Timestamp } from 'firebase/firestore';
 import { assignmentService } from './services/firebase/assignmentService';
 import AssignmentModel from './components/AssignmentModel';
+import BulkImportModal from './components/BulkImportModal';
+import * as XLSX from 'xlsx';
+
 
 const App = () => {
   const { user, loading: authLoading, logout } = useAuth();
@@ -53,6 +56,7 @@ const App = () => {
   });
   const [assigningEquipment, setAssigningEquipment] =
     useState<Equipment | null>(null);
+  const [showBulkImport, setShowBulkImport] = useState(false);
   const notificationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // subscribe to equipment changes when user is authenticated
@@ -376,6 +380,41 @@ const App = () => {
     setNotification({ show: true, message, type });
   };
 
+  const handleBulkImport = async (
+    equipmentList: Omit<Equipment, 'id'>[]
+  ): Promise<{ success: number; failed: number; errors: string[] }> => {
+    if (!user) return { success: 0, failed: equipmentList.length, errors: ['Not authenticated'] };
+
+    try {
+      const result = await equipmentService.bulkAddEquipment(equipmentList, user.id!);
+
+      // Log the bulk import as a single activity log entry
+      if (result.success > 0) {
+        await activityLogService.logEquipmentAction(
+          'added',
+          { id: 'bulk-import', assetTag: `Bulk Import (${result.success} items)` } as Equipment,
+          user.id!,
+          user.name,
+          undefined,
+          `Bulk imported ${result.success} equipment item(s)${result.failed > 0 ? `, ${result.failed} failed` : ''}`
+        );
+      }
+
+      if (result.success > 0) {
+        showNotification(`Successfully imported ${result.success} item(s)!`, 'success');
+      }
+      if (result.failed > 0) {
+        showNotification(`${result.failed} item(s) failed to import`, 'warning');
+      }
+
+      return result;
+    } catch (error: any) {
+      console.error('Error during bulk import:', error);
+      showNotification('Bulk import failed', 'error');
+      return { success: 0, failed: equipmentList.length, errors: [error.message || 'Unknown error'] };
+    }
+  };
+
   // auto-hide notification after 3s, cleared on each new notification
   useEffect(() => {
     if (!notification.show) return;
@@ -412,6 +451,39 @@ const App = () => {
     return <Login />;
   }
 
+  const handleExportEquipment = () => {
+    if (equipment.length === 0) {
+      showNotification('No equipment data to export', 'warning');
+      return;
+    }
+
+    const exportData = equipment.map((item) => ({
+      'Asset Tag': item.assetTag,
+      'Equipment Type': item.type,
+      'Brand': item.brand,
+      'Model': item.model,
+      'Processor': item.processor,
+      'Serial Number': item.serialNumber,
+      'Status': item.status,
+      'Assigned To': item.assignedTo,
+      'Employee ID': item.employeeId,
+      'Department': item.department,
+      'Location': item.location,
+      'Purchase Cost': item.purchaseCost,
+      'Notes': item.notes,
+    }));
+
+    const ws = XLSX.utils.json_to_sheet(exportData);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Equipment');
+
+    const dateStr = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, `equipment_export_${dateStr}.xlsx`);
+
+    showNotification(`Exported ${equipment.length} items successfully!`, 'success');
+  };
+
+
   const stats = calculateStats(equipment);
 
   return (
@@ -436,12 +508,42 @@ const App = () => {
                 </div>
                 <div className="header-actions">
                   <button
+                    className="btn btn-import"
+                    onClick={() => setShowBulkImport(true)}
+                  >
+                    <Upload size={18} />
+                    Bulk Import
+                  </button>
+                  <button
                     className="btn btn-primary"
                     onClick={() => setActiveTab('add')}
                   >
                     Add Equipment
                   </button>
                 </div>
+              </div>
+
+              <div className="header-actions">
+                <button
+                  className="btn btn-import"
+                  onClick={handleExportEquipment}
+                >
+                  <Download size={18} />
+                  Export Data
+                </button>
+                <button
+                  className="btn btn-import"
+                  onClick={() => setShowBulkImport(true)}
+                >
+                  <Upload size={18} />
+                  Bulk Import
+                </button>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => setActiveTab('add')}
+                >
+                  Add Equipment
+                </button>
               </div>
 
               <SearchFilter
@@ -510,6 +612,14 @@ const App = () => {
             equipment={deletingEquipment}
             onConfirm={handleDeleteEquipment}
             onCancel={() => setDeletingEquipment(null)}
+          />
+        )}
+
+        {/* Bulk Import Modal */}
+        {showBulkImport && (
+          <BulkImportModal
+            onImport={handleBulkImport}
+            onClose={() => setShowBulkImport(false)}
           />
         )}
 

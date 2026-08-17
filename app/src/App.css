@@ -439,6 +439,14 @@ background: #141e30; /* fallback for old browsers */
   color: #234e52;
 }
 
+.sold-to-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #319795;
+}
+
 /* Assigned Info */
 .assigned-info {
   display: flex;
@@ -1606,5 +1614,148 @@ background: #141e30; /* fallback for old browsers */
   .login-box {
     max-width: 100%;
     margin: 20px;
+  }
+}
+
+/* Add these styles to your App.css file */
+
+/* Import Steps Indicator */
+.import-steps {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.import-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #a0aec0;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  flex: 1;
+  position: relative;
+}
+
+.import-step-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #a0aec0;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.import-step.active .import-step-number {
+  background: #48bb78;
+  color: white;
+}
+
+.import-step.current .import-step-number {
+  background: #141e30;
+  color: white;
+}
+
+.import-step.active {
+  color: #2d3748;
+}
+
+/* Dropzone */
+.dropzone {
+  border: 2px dashed #cbd5e0;
+  border-radius: 12px;
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #718096;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.dropzone:hover,
+.dropzone.dragging {
+  border-color: #667eea;
+  background: #f7fafc;
+  color: #4a5568;
+}
+
+.dropzone svg {
+  margin-bottom: 8px;
+  color: #a0aec0;
+}
+
+.dropzone p {
+  margin: 0;
+}
+
+/* Template Download */
+.template-download {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 16px;
+  padding: 12px;
+  color: #718096;
+  font-size: 0.875rem;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #667eea;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 0.875rem;
+  text-decoration: underline;
+  padding: 0;
+}
+
+.link-btn:hover {
+  color: #5a67d8;
+}
+
+/* Mapping Grid */
+.mapping-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+/* Import Button in Header Actions */
+.btn-import {
+  background: white;
+  color: #141e30;
+  border: 1px solid #cbd5e0;
+}
+
+.btn-import:hover:not(:disabled) {
+  background: #f7fafc;
+  border-color: #a0aec0;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .import-steps {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .import-step span:last-child {
+    display: none;
+  }
+
+  .mapping-grid {
+    grid-template-columns: 1fr;
   }
 }

@@ -269,41 +269,52 @@ const EditEquipmentModal = ({
               </div>
             </div>
 
-            {formData.status === 'assigned' && (
+            {(formData.status === 'assigned' || formData.status === 'sold') && (
               <div className="form-section">
-                <h3 className="form-section-title">Assignment Information</h3>
+                <h3 className="form-section-title">
+                  {formData.status === 'sold' ? 'Sale Information' : 'Assignment Information'}
+                </h3>
 
                 <div className="form-grid">
                   <div className="form-group">
-                    <label htmlFor="edit-assignedTo">Assigned To</label>
+                    <label htmlFor="edit-assignedTo">
+                      {formData.status === 'sold' ? 'Sold To' : 'Assigned To'}
+                    </label>
                     <input
                       type="text"
                       id="edit-assignedTo"
                       name="assignedTo"
                       value={formData.assignedTo}
                       onChange={handleChange}
+                      placeholder={formData.status === 'sold' ? 'Buyer name' : 'Employee name'}
                     />
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="edit-employeeId">Employee ID</label>
+                    <label htmlFor="edit-employeeId">
+                      {formData.status === 'sold' ? 'Contact ID' : 'Employee ID'}
+                    </label>
                     <input
                       type="text"
                       id="edit-employeeId"
                       name="employeeId"
                       value={formData.employeeId}
                       onChange={handleChange}
+                      placeholder={formData.status === 'sold' ? 'Optional contact ID' : 'EMP001'}
                     />
                   </div>
 
                   <div className="form-group">
-                    <label htmlFor="edit-department">Department</label>
+                    <label htmlFor="edit-department">
+                      {formData.status === 'sold' ? 'Company / Organization' : 'Department'}
+                    </label>
                     <input
                       type="text"
                       id="edit-department"
                       name="department"
                       value={formData.department}
                       onChange={handleChange}
+                      placeholder={formData.status === 'sold' ? 'Buyer company or org' : 'Department name'}
                     />
                   </div>
                 </div>

@@ -12,6 +12,7 @@ import {
   Timestamp,
   updateDoc,
   where,
+  writeBatch
 } from 'firebase/firestore';
 
 import { COLLECTIONS, db } from '../../config/firebase';
@@ -225,6 +226,70 @@ class EquipmentService {
       throw error;
     }
   }
+
+  /**
+ * Bulk add multiple equipment items to Firebase
+ * Uses batched writes for efficiency, processes in chunks of 500 (Firestore batch limit)
+ */
+async bulkAddEquipment(
+  equipmentList: Omit<Equipment, 'id'>[],
+  userId: string
+): Promise<{ success: number; failed: number; errors: string[] }> {
+  const results = { success: 0, failed: 0, errors: [] as string[] };
+  const BATCH_SIZE = 500; // Firestore batch write limit
+
+  // First, check for duplicate asset tags against existing equipment
+  const existingAssetTags = new Set<string>();
+  try {
+    const existingEquipment = await this.getAllEquipment();
+    existingEquipment.forEach((eq) => existingAssetTags.add(eq.assetTag));
+  } catch (error) {
+    console.error('Error checking existing asset tags:', error);
+  }
+
+  // Filter out items with duplicate asset tags
+  const itemsToImport: Omit<Equipment, 'id'>[] = [];
+  equipmentList.forEach((item) => {
+    if (existingAssetTags.has(item.assetTag)) {
+      results.failed++;
+      results.errors.push(`Asset Tag "${item.assetTag}" already exists in database - skipped`);
+    } else {
+      itemsToImport.push(item);
+      existingAssetTags.add(item.assetTag); // prevent dupes within the same import
+    }
+  });
+
+  // Process in batches of 500
+  for (let i = 0; i < itemsToImport.length; i += BATCH_SIZE) {
+    const chunk = itemsToImport.slice(i, i + BATCH_SIZE);
+    const batch = writeBatch(db);
+
+    chunk.forEach((equipment) => {
+      const docRef = doc(collection(db, COLLECTIONS.EQUIPMENT));
+      const docData: Omit<FirebaseEquipment, 'id'> = {
+        ...equipment,
+        createdAt: serverTimestamp() as Timestamp,
+        updatedAt: serverTimestamp() as Timestamp,
+        createdBy: userId,
+        updatedBy: userId,
+      };
+      batch.set(docRef, docData);
+    });
+
+    try {
+      await batch.commit();
+      results.success += chunk.length;
+    } catch (error) {
+      console.error('Error in batch commit:', error);
+      results.failed += chunk.length;
+      results.errors.push(
+        `Failed to import batch of ${chunk.length} items: ${(error as Error).message}`
+      );
+    }
+  }
+
+  return results;
+}
 }
 
 export const equipmentService = new EquipmentService();
