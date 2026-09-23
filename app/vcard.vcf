@@ -51,6 +51,7 @@ ORG:Dugan Production;Well Operations
 TITLE:Well Operations Technician
 NOTE:Unit #58
 NOTE: Cost Center #303
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-860-9816
 EMAIL;type=INTERNET;type=WORK;type=pref:javier.aguirre@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
@@ -112,14 +113,12 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Bair;Melissa;;;
-FN:Melissa Bair
+N:Bauer;Nikolina;;;
+FN:Nikolina Bauer
 ORG:Dugan Production;Administration
-TITLE:Executive Coordinator
-NOTE: Cost Center #100
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-590-6984
-TEL;TYPE=WORK;TYPE=VOICE:505-635-0846
-EMAIL;type=INTERNET;type=WORK;type=pref:melissa.bair@duganproduction.com
+TITLE:Personal Executive Assistant to the Owner
+NOTE: Cost Center #777
+EMAIL;type=INTERNET;type=WORK;type=pref:0
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -183,27 +182,13 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Brimhall;Farrell;;;
-FN:Farrell Brimhall
-ORG:Dugan Production;Well Operations
-TITLE:Well Operations Technician
-NOTE:Unit #53
-NOTE: Cost Center #303
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-360-0498
-EMAIL;type=INTERNET;type=WORK;type=pref:farrell.brimhall@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
-N:Brimhall;Mike;;;
-FN:Mike Brimhall
-ORG:Dugan Production;Flow Measurement
-TITLE:Lead Flow Measurement Technician
-NOTE:Unit #651
-NOTE: Cost Center #313
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-947-2915
-TEL;TYPE=WORK;TYPE=VOICE:505-635-8573
-EMAIL;type=INTERNET;type=WORK;type=pref:mike.brimhall@duganproduction.com
+N:Borunda;Victor;;;
+FN:Victor Borunda
+ORG:Dugan Production;Automation
+TITLE:Automation Technician
+NOTE: Cost Center #325
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-631-3944
+EMAIL;type=INTERNET;type=WORK;type=pref:victor.borunda@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -216,6 +201,31 @@ NOTE:Unit #82
 NOTE: Cost Center #315
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-3422
 EMAIL;type=INTERNET;type=WORK;type=pref:tappen.brimhall@duganproduction.com
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Brimhall;Farrell;;;
+FN:Farrell Brimhall
+ORG:Dugan Production;Well Operations
+TITLE:Well Operations Technician
+NOTE:Unit #53
+NOTE: Cost Center #303
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-360-0498
+EMAIL;type=INTERNET;type=WORK;type=pref:farrell.brimhall@duganproduction.com
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Brimhall;Michael;;;
+FN:Michael Brimhall
+ORG:Dugan Production;Flow Measurement
+TITLE:Lead Flow Measurement Technician
+NOTE:Unit #651
+NOTE: Cost Center #313
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-947-2915
+TEL;TYPE=WORK;TYPE=VOICE:505-635-8573
+EMAIL;type=INTERNET;type=WORK;type=pref:mike.brimhall@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -242,8 +252,8 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Buder;Jon;;;
-FN:Jon Buder
+N:Buder;Jonathon;;;
+FN:Jonathon Buder
 ORG:Dugan Production;IT
 TITLE:Information Technology Manager
 NOTE: Cost Center #100
@@ -304,6 +314,7 @@ ORG:Dugan Production;Well Operations
 TITLE:Well Operations Technician
 NOTE:Unit #13
 NOTE: Cost Center #303
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-512-5196
 TEL;TYPE=WORK;TYPE=VOICE:505-512-5196
 EMAIL;type=INTERNET;type=WORK;type=pref:lionel.chavez@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
@@ -332,8 +343,8 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Clichee;Jeff;;;
-FN:Jeff Clichee
+N:Clichee;Jeffrey;;;
+FN:Jeffrey Clichee
 ORG:Dugan Production;Construction
 TITLE:Roustabout Supervisor
 NOTE: Cost Center #404
@@ -355,14 +366,13 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Cly;Justin;;;
-FN:Justin Cly
-ORG:Dugan Production;Injection Operations
-TITLE:Injection Maintenance Technician
-NOTE:Unit #417
-NOTE: Cost Center #510
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-390-3329
-EMAIL;type=INTERNET;type=WORK;type=pref:justin.cly@duganproduction.com
+N:Collard;Marya;;;
+FN:Marya Collard
+ORG:Dugan Production;Safety
+TITLE:Environmental Compliance Specialist
+NOTE: Cost Center #100
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-3815
+EMAIL;type=INTERNET;type=WORK;type=pref:marya.collard@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -375,17 +385,6 @@ NOTE:Unit #41
 NOTE: Cost Center #306
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-787-4023
 EMAIL;type=INTERNET;type=WORK;type=pref:joseph.collard@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
-N:Collard;Marya;;;
-FN:Marya Collard
-ORG:Dugan Production;Safety
-TITLE:Environmental Compliance Specialist
-NOTE: Cost Center #100
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-3815
-EMAIL;type=INTERNET;type=WORK;type=pref:marya.collard@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -449,14 +448,13 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Deswood;Nat;;;
-FN:Nat Deswood
-ORG:Dugan Production;Well Operations
-TITLE:Well Operations Technician
-NOTE:Unit #65
-NOTE: Cost Center #303
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-3146
-EMAIL;type=INTERNET;type=WORK;type=pref:nat.deswood@duganproduction.com
+N:Devoe;Domonique;;;
+FN:Domonique Devoe
+ORG:Dugan Production;Construction
+TITLE:Pipeline Maintenance Technician
+NOTE: Cost Center #404
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-631-3976
+EMAIL;type=INTERNET;type=WORK;type=pref:domonique.hilliard@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -469,6 +467,16 @@ NOTE:Unit #61
 NOTE: Cost Center #303
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-947-7042
 EMAIL;type=INTERNET;type=WORK;type=pref:luis.dominguez@duganproduction.com
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Drexler;Jayson;;;
+FN:Jayson Drexler
+ORG:Dugan Production;Administration
+TITLE:Property Caretaker
+NOTE: Cost Center #777
+EMAIL;type=INTERNET;type=WORK;type=pref:0
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -486,29 +494,19 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Dugan-Raines;Megan;;;
-FN:Megan Dugan-Raines
+N:Dugan;Megan;;;
+FN:Megan Dugan
 ORG:Dugan Production;Administration
 TITLE:Corporate Secretary
 NOTE:Unit #6
 NOTE: Cost Center #100
-EMAIL;type=INTERNET;type=WORK;type=pref:0
+EMAIL;type=INTERNET;type=WORK;type=pref:megan.dugan@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Eaglefeather;Keyshawn;;;
-FN:Keyshawn Eaglefeather
-ORG:Dugan Production;Facility Maintenance & Parts
-TITLE:Parts Specialist
-NOTE: Cost Center #808
-EMAIL;type=INTERNET;type=WORK;type=pref:0
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
-N:Enriquez;Ricardo;;;
-FN:Ricardo Enriquez
+N:Enriquez-Almeida;Ricardo;;;
+FN:Ricardo Enriquez-Almeida
 ORG:Dugan Production;Workover Operations
 TITLE:Floor Hand
 NOTE: Cost Center #909
@@ -540,8 +538,8 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Foutz;Marty;;;
-FN:Marty Foutz
+N:Foutz;Martin;;;
+FN:Martin Foutz
 ORG:Dugan Production;Production Management
 TITLE:Operations Asset Manager
 NOTE:Unit #36
@@ -572,6 +570,17 @@ TITLE:Accounts Payable Clerk
 NOTE: Cost Center #100
 TEL;TYPE=WORK;TYPE=VOICE:505-592-2011
 EMAIL;type=INTERNET;type=WORK;type=pref:catherine.galvan@duganproduction.com
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Gates;Crystal;;;
+FN:Crystal Gates
+ORG:Dugan Production;Administration
+TITLE:Senior Executive Coordinator
+NOTE: Cost Center #100
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-0161
+EMAIL;type=INTERNET;type=WORK;type=pref:crystal.gates@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -622,8 +631,8 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Griffin;Josh;;;
-FN:Josh Griffin
+N:Griffin;Joshua;;;
+FN:Joshua Griffin
 ORG:Dugan Production;Production Management
 TITLE:Production Manager
 NOTE:Unit #15
@@ -645,8 +654,8 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Harmon;Chris;;;
-FN:Chris Harmon
+N:Harmon;Christopher;;;
+FN:Christopher Harmon
 ORG:Dugan Production;Pumping Unit Maintenance
 TITLE:Pumping Unit Maintenance Technician
 NOTE:Unit #123
@@ -738,8 +747,8 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Kee;Aaron;;;
-FN:Aaron Kee
+N:Kee;Aaron-Michael;;;
+FN:Aaron-Michael Kee
 ORG:Dugan Production;Compressor Maintenance
 TITLE:Compressor Maintenance Supervisor
 NOTE:Unit #432
@@ -808,6 +817,17 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
+N:Lambson;Jaxson;;;
+FN:Jaxson Lambson
+ORG:Dugan Production;Injection Operations
+TITLE:Injection Mechanic
+NOTE: Cost Center #510
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-3019
+EMAIL;type=INTERNET;type=WORK;type=pref:jaxon.lambson@duganproduction.com
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
 N:Ledbetter;Jacob;;;
 FN:Jacob Ledbetter
 ORG:Dugan Production;Workover Operations
@@ -816,16 +836,6 @@ NOTE:Unit #123
 NOTE: Cost Center #909
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-1010
 EMAIL;type=INTERNET;type=WORK;type=pref:jacob.ledbetter@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
-N:Lewis;Dimitry;;;
-FN:Dimitry Lewis
-ORG:Dugan Production;Workover Operations
-TITLE:Rig Floor Technician
-NOTE: Cost Center #909
-EMAIL;type=INTERNET;type=WORK;type=pref:0
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -854,14 +864,25 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Mack;Nick;;;
-FN:Nick Mack
+N:Mack;Nicholas;;;
+FN:Nicholas Mack
 ORG:Dugan Production;Compressor Maintenance
 TITLE:Lead Compressor Mechanic
 NOTE:Unit #412
 NOTE: Cost Center #320
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-330-0929
 EMAIL;type=INTERNET;type=WORK;type=pref:nicholas.mack@duganproduction.com
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Manning;Mylene;;;
+FN:Mylene Manning
+ORG:Dugan Production;Accounting
+TITLE:Accounting Manager
+NOTE: Cost Center #100
+TEL;TYPE=WORK;TYPE=VOICE:505-543-0665
+EMAIL;type=INTERNET;type=WORK;type=pref:mylene.manning@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -875,17 +896,6 @@ NOTE: Cost Center #303
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-486-0429
 TEL;TYPE=WORK;TYPE=VOICE:505-635-8766
 EMAIL;type=INTERNET;type=WORK;type=pref:jordan.manning@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
-N:Manning;Mylene;;;
-FN:Mylene Manning
-ORG:Dugan Production;Accounting
-TITLE:Accounting Manager
-NOTE: Cost Center #100
-TEL;TYPE=WORK;TYPE=VOICE:505-543-0665
-EMAIL;type=INTERNET;type=WORK;type=pref:mylene.manning@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -921,18 +931,6 @@ NOTE: Cost Center #600
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-3020
 TEL;TYPE=WORK;TYPE=VOICE:505-675-4025
 EMAIL;type=INTERNET;type=WORK;type=pref:jennifer.mccoy@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
-N:McDaniel;David;;;
-FN:David McDaniel
-ORG:Dugan Production;Well Operations
-TITLE:Well Operations Technician
-NOTE:Unit #93
-NOTE: Cost Center #303
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-320-7464
-EMAIL;type=INTERNET;type=WORK;type=pref:david.mcdaniel@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -984,18 +982,6 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Moyer;Patrick;;;
-FN:Patrick Moyer
-ORG:Dugan Production;Pumping Unit Maintenance
-TITLE:Pumping Unit Maintenance Technician
-NOTE:Unit #95
-NOTE: Cost Center #310
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-486-3018
-EMAIL;type=INTERNET;type=WORK;type=pref:patrick.moyer@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
 N:Nakai;Christopher;;;
 FN:Christopher Nakai
 ORG:Dugan Production;Construction
@@ -1011,6 +997,7 @@ FN:Waylon Nez
 ORG:Dugan Production;Well Operations
 TITLE:Separator Maintenance Technician
 NOTE: Cost Center #303
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-3023
 EMAIL;type=INTERNET;type=WORK;type=pref:waylon.nez@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
@@ -1028,13 +1015,13 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:North;Caeden;;;
-FN:Caeden North
+N:North;Caedyn;;;
+FN:Caedyn North
 ORG:Dugan Production;Well Operations
 TITLE:Well Operations Technician
 NOTE:Unit #56
 NOTE: Cost Center #303
-TEL;TYPE=WORK;TYPE=VOICE:505-325-1821
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-325-1821
 EMAIL;type=INTERNET;type=WORK;type=pref:caedyn.north@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
@@ -1064,18 +1051,6 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Ordaz-Regalado;Miguel;;;
-FN:Miguel Ordaz-Regalado
-ORG:Dugan Production;Pumping Unit Maintenance
-TITLE:Pumping Unit Maintenance Supervisor
-NOTE:Unit #467
-NOTE: Cost Center #310
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-0158
-EMAIL;type=INTERNET;type=WORK;type=pref:Miguel.ordaz@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
 N:Orozco;Hernaldo;;;
 FN:Hernaldo Orozco
 ORG:Dugan Production;Compressor Maintenance
@@ -1084,18 +1059,6 @@ NOTE:Unit #469
 NOTE: Cost Center #320
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-486-2966
 EMAIL;type=INTERNET;type=WORK;type=pref:Hernaldo.orozco@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
-N:Pablo;Leonard;;;
-FN:Leonard Pablo
-ORG:Dugan Production;Injection Operations
-TITLE:Injection Mechanic
-NOTE:Unit #474
-NOTE: Cost Center #510
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-3129
-EMAIL;type=INTERNET;type=WORK;type=pref:leonard.pablo@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -1144,11 +1107,24 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
+N:Regalado;Miguel;;;
+FN:Miguel Regalado
+ORG:Dugan Production;Pumping Unit Maintenance
+TITLE:Pumping Unit Maintenance Supervisor
+NOTE:Unit #467
+NOTE: Cost Center #310
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-0158
+EMAIL;type=INTERNET;type=WORK;type=pref:Miguel.ordaz@duganproduction.com
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
 N:Roberts;Kelly;;;
 FN:Kelly Roberts
 ORG:Dugan Production;Well Operations
 TITLE:Well Operations Technician
 NOTE: Cost Center #303
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-5476
 EMAIL;type=INTERNET;type=WORK;type=pref:kelly.roberts@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
@@ -1162,16 +1138,6 @@ NOTE:Unit #720
 NOTE: Cost Center #808
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-860-2528
 EMAIL;type=INTERNET;type=WORK;type=pref:troy.rocke@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
-N:Roldan-Gonzalez;Ally;;;
-FN:Ally Roldan-Gonzalez
-ORG:Dugan Production;Intern
-TITLE:Administrative Assistant
-NOTE: Cost Center #100
-EMAIL;type=INTERNET;type=WORK;type=pref:alejandra.gonzalez@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -1245,6 +1211,16 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
+N:Segovia Jr;Jean;;;
+FN:Jean Segovia Jr
+ORG:Dugan Production;Rebuild Shop
+TITLE:Rebuild Shop Mechanic
+NOTE: Cost Center #306
+EMAIL;type=INTERNET;type=WORK;type=pref:0
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
 N:Sena-Alvarado;Francisco;;;
 FN:Francisco Sena-Alvarado
 ORG:Dugan Production;Well Operations
@@ -1293,13 +1269,24 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Smith;Dylan;;;
-FN:Dylan Smith
-ORG:Dugan Production;Automation
-TITLE:Automation Technician
-NOTE: Cost Center #325
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-631-3944
-EMAIL;type=INTERNET;type=WORK;type=pref:dylan.smith@duganproduction.com
+N:Speer-Bair;Melissa;;;
+FN:Melissa Speer-Bair
+ORG:Dugan Production;Administration
+TITLE:Executive Coordinator
+NOTE: Cost Center #100
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-590-6984
+TEL;TYPE=WORK;TYPE=VOICE:505-635-0846
+EMAIL;type=INTERNET;type=WORK;type=pref:melissa.bair@duganproduction.com
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Stanley;Kryalyn;;;
+FN:Kryalyn Stanley
+ORG:Dugan Production;Rebuild Shop
+TITLE:Intern Shop Mechanic
+NOTE: Cost Center #306
+EMAIL;type=INTERNET;type=WORK;type=pref:0
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -1316,14 +1303,14 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Stradling;Felicia;;;
-FN:Felicia Stradling
+N:Stradling;Felecia;;;
+FN:Felecia Stradling
 ORG:Dugan Production;Administration
 TITLE:Human Resources Operations Supervisor
 NOTE: Cost Center #100
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-0855
 TEL;TYPE=WORK;TYPE=VOICE:505-592-2157
-EMAIL;type=INTERNET;type=WORK;type=pref:felicia.stradling@duganproduction.com
+EMAIL;type=INTERNET;type=WORK;type=pref:felecia.stradling@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -1350,14 +1337,13 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Tsalate;Davida;;;
-FN:Davida Tsalate
-ORG:Dugan Production;Administration
-TITLE:Benefits Specialist
-NOTE: Cost Center #100
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-444-3735
-TEL;TYPE=WORK;TYPE=VOICE:505-543-0518
-EMAIL;type=INTERNET;type=WORK;type=pref:davida.tsalate@duganproduction.com
+N:Tsosie;Dalilah;;;
+FN:Dalilah Tsosie
+ORG:Dugan Production;Facility Maintenance & Parts
+TITLE:Parts Specialist
+NOTE: Cost Center #808
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-8889
+EMAIL;type=INTERNET;type=WORK;type=pref:dalilah.tsosie@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -1368,6 +1354,16 @@ ORG:Dugan Production;Rebuild Shop
 TITLE:Rebuild Shop Mechanic
 NOTE: Cost Center #306
 EMAIL;type=INTERNET;type=WORK;type=pref:0
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Tulley;Brian;;;
+FN:Brian Tulley
+ORG:Dugan Production;Workover Operations
+TITLE:Rig Floor Technician
+NOTE: Cost Center #909
+EMAIL;type=INTERNET;type=WORK;type=pref:brian.tulley@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -1388,7 +1384,7 @@ FN:Dustin Valadez
 ORG:Dugan Production;Well Operations
 TITLE:Well Operations Technician
 NOTE: Cost Center #510
-TEL;TYPE=WORK;TYPE=VOICE:505-648-6668
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-648-6668
 EMAIL;type=INTERNET;type=WORK;type=pref:dustin.valadez@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
@@ -1402,16 +1398,6 @@ NOTE:Unit #13
 NOTE: Cost Center #303
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-330-6364
 EMAIL;type=INTERNET;type=WORK;type=pref:trevor.vanhoutan@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
-N:Vasquez;Michele;;;
-FN:Michele Vasquez
-ORG:Dugan Production;Administration
-TITLE:File Clerk
-NOTE: Cost Center #100
-EMAIL;type=INTERNET;type=WORK;type=pref:michele.vasquez@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -1439,18 +1425,6 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Villegas-Almeida;Miguel;;;
-FN:Miguel Villegas-Almeida
-ORG:Dugan Production;Pumping Unit Maintenance
-TITLE:Pumping Unit Mechanic
-NOTE:Unit #411
-NOTE: Cost Center #310
-TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-517-5685
-EMAIL;type=INTERNET;type=WORK;type=pref:miguel.villegas-almeida@duganproduction.com
-PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
-END:VCARD
-BEGIN:VCARD
-VERSION:3.0
 N:Villegas-Almeida;Isaac;;;
 FN:Isaac Villegas-Almeida
 ORG:Dugan Production;Pumping Unit Maintenance
@@ -1459,6 +1433,18 @@ NOTE:Unit #413
 NOTE: Cost Center #310
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-635-6264
 EMAIL;type=INTERNET;type=WORK;type=pref:isaac.villegas-almeida@duganproduction.com
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Villegas-Almeida;Miguel;;;
+FN:Miguel Villegas-Almeida
+ORG:Dugan Production;Pumping Unit Maintenance
+TITLE:Pumping Unit Mechanic
+NOTE:Unit #411
+NOTE: Cost Center #310
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-517-5685
+EMAIL;type=INTERNET;type=WORK;type=pref:miguel.villegas-almeida@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -1488,12 +1474,13 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Wheeler;Kelsey;;;
-FN:Kelsey Wheeler
-ORG:Dugan Production;Land
-TITLE:Land Administrative Assistant
-NOTE: Cost Center #100
-EMAIL;type=INTERNET;type=WORK;type=pref:kelsey.wheeler@duganproduction.com
+N:Whitaker;Zachary;;;
+FN:Zachary Whitaker
+ORG:Dugan Production;Well Operations
+TITLE:Well Operations Technician
+NOTE: Cost Center #303
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-512-3338
+EMAIL;type=INTERNET;type=WORK;type=pref:zachery.whitaker@duganproduction.com
 PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
@@ -1522,8 +1509,8 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Wilcox;Matt;;;
-FN:Matt Wilcox
+N:Wilcox;Matthew;;;
+FN:Matthew Wilcox
 ORG:Dugan Production;Construction
 TITLE:Engineering Technician
 NOTE:Unit #70
@@ -1578,8 +1565,19 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Yazzie;Bennie;;;
-FN:Bennie Yazzie
+N:Yazzie;Eurick;;;
+FN:Eurick Yazzie
+ORG:Dugan Production;Automation
+TITLE:Automation Technician
+NOTE: Cost Center #325
+TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-390-3329
+EMAIL;type=INTERNET;type=WORK;type=pref:eurick.yazzie@duganproduction.com
+PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
+END:VCARD
+BEGIN:VCARD
+VERSION:3.0
+N:Yazzie Jr.;Bennie;;;
+FN:Bennie Yazzie Jr.
 ORG:Dugan Production;Water Transportation
 TITLE:Water Transport Operator
 NOTE: Cost Center #505
@@ -1589,10 +1587,10 @@ PRODID:-//Apple Inc.//iCloud Web Address Book 2020B67//EN
 END:VCARD
 BEGIN:VCARD
 VERSION:3.0
-N:Zunich;Michael "Chaz";;;
-FN:Michael "Chaz" Zunich
+N:Zunich;Michael;;;
+FN:Michael Zunich
 ORG:Dugan Production;Automation
-TITLE:Automation Technician
+TITLE:Business Systems Specialist
 NOTE: Cost Center #325
 TEL;TYPE=CELL;TYPE=pref;TYPE=VOICE:505-444-0729
 EMAIL;type=INTERNET;type=WORK;type=pref:0

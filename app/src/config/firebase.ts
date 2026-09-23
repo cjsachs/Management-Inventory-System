@@ -31,6 +31,7 @@ export const COLLECTIONS = {
   IT_STAFF: 'itStaff',
   ASSIGNMENTS: 'assignments',
   ACTIVITY_LOGS: 'activityLogs',
+  PROCESSOR_OVERRIDES: 'processorOverrides',
 };
 
 export default app;

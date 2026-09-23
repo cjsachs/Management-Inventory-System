@@ -1,8 +1,8 @@
-import { Package, Plus, Users } from "lucide-react";
+import { Package, Plus, Users, BarChart3 } from "lucide-react";
 
 interface TabNavigationProps {
-    activeTab: 'inventory' | 'add' | 'assignments';
-    onTabChange: (tab: 'inventory' | 'add' | 'assignments') => void;
+    activeTab: 'inventory' | 'add' | 'assignments' | 'reports';
+    onTabChange: (tab: 'inventory' | 'add' | 'assignments' | 'reports') => void;
 }
 
 const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
@@ -28,6 +28,13 @@ const TabNavigation = ({ activeTab, onTabChange }: TabNavigationProps) => {
         >
           <Users size={20}/>
           <span>Assignments</span>
+        </button>
+        <button
+        className={`tab ${activeTab === 'reports' ? 'active' : ''}`}
+        onClick={() => onTabChange('reports')}
+        >
+          <BarChart3 size={20}/>
+          <span>Reports</span>
         </button>
     </div>
   )

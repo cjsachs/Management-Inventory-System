@@ -25,6 +25,7 @@ import { Timestamp } from 'firebase/firestore';
 import { assignmentService } from './services/firebase/assignmentService';
 import AssignmentModel from './components/AssignmentModel';
 import BulkImportModal from './components/BulkImportModal';
+import EquipmentAgeReport from './components/EquipmentAgeReport';
 import * as XLSX from 'xlsx';
 
 
@@ -33,7 +34,7 @@ const App = () => {
   const [equipment, setEquipment] = useState<Equipment[]>([]);
   const [loadingUser, setLoadingUser] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<
-    'inventory' | 'add' | 'assignments'
+    'inventory' | 'add' | 'assignments' | 'reports'
   >('inventory');
   const [searchTerm, setSearchTerm] = useState<string>('');
   const [statusFilter, setStatusFilter] = useState<EquipmentStatus | 'all'>(
@@ -58,7 +59,6 @@ const App = () => {
     useState<Equipment | null>(null);
   const [showBulkImport, setShowBulkImport] = useState(false);
   const notificationTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   // subscribe to equipment changes when user is authenticated
   useEffect(() => {
     if (!user) {
@@ -571,7 +571,9 @@ const App = () => {
                 onViewDetails={handleViewAssignmentDetails}
               />
             </>
-          ) : null}
+          ) : activeTab === 'reports' ? (
+  <EquipmentAgeReport equipment={equipment} onNotify={showNotification} />
+) : null}
         </div>
 
         {assigningEquipment && (

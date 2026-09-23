@@ -72,3 +72,13 @@ export interface AuthContextType {
     login: (email: string, password: string) => Promise<void>;
     logout: () => Promise<void>;
 }
+
+export interface ProcessorOverride {
+  id?: string;
+  matchString: string; // substring to match against processor name (case-insensitive)
+  label: string; // display name, e.g. "AMD Ryzen 5 PRO 5675U"
+  releaseYear: number;
+  createdBy: string;
+  createdByName: string;
+  createdAt: Timestamp;
+}
