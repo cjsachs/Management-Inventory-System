@@ -7,7 +7,6 @@ import { analyzeEquipmentAge } from '../utils/processorAgeEstimator';
 import { processorOverrideService } from '../services/firebase/processorOverrideService';
 import ProcessorOverridesManager from './ProcessorOverridesManager';
 import { auth } from '../config/firebase';
-import * as XLSX from 'xlsx';
 
 interface EquipmentAgeReportProps {
   equipment: Equipment[];
